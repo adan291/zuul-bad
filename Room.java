@@ -80,7 +80,7 @@ public class Room
      */
     public String getLongDescription()
     {
-        String longDescription = "You are in the " + getDescription() + "\n"  + getExitString();
+        String longDescription = "Tu estas en el " + getDescription() + "\n"  + getExitString();
         return longDescription;
     }
 }

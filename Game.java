@@ -38,14 +38,14 @@ public class Game
         Room sala, calabozo, armas, comedor, foso, habitacionFlechas, princesa;
 
         // create the rooms
-        sala = new Room("Has entrado al castillo, y te encuentras en la sala de espera");
-        calabozo = new Room("Estas en el calabozo y quedas encerrado");
-        armas = new Room("Te encuentras en la sala de armas");
-        comedor = new Room("Te encuentras en el comedor");
-        foso = new Room("Caes en un foso");
-        habitacionFlechas = new Room("Entras en la habitacion, " +  
+        sala = new Room("has entrado al castillo, y te encuentras en la sala de espera");
+        calabozo = new Room("estas en el calabozo y quedas encerrado");
+        armas = new Room("te encuentras en la sala de armas");
+        comedor = new Room("te encuentras en el comedor");
+        foso = new Room("caes en un foso");
+        habitacionFlechas = new Room("entras en la habitacion, " +  
             "y al pisar una baldosa algo suelta te disparan flechas");
-        princesa = new Room("Salvaste a la princesa");
+        princesa = new Room("salvaste a la princesa");
 
         // initialise room exits
         sala.setExit("este",armas);
@@ -94,7 +94,7 @@ public class Game
         System.out.println("Bienvenido al mundo LostPrincess");
         System.out.println("LostPrincess es un juego donde deberas usar tu intuicion y " + 
             "tu perspicacia para ir superando las pruebas y rescatar a la princesa");
-        System.out.println("Escribe 'mago' si tu necesitas ayuda");
+        System.out.println("Escribe 'mago' si tu necesitas ayuda o 'mirar' para saber donde estas");
         System.out.println();
         printLocationInfo();
         System.out.print("Que direccion quieres tomar: ");
@@ -124,6 +124,9 @@ public class Game
         }
         else if (commandWord.equals("salir")) {
             wantToQuit = quit(command);
+        }
+         else if (commandWord.equals("mirar")) {
+            mirar();
         }
 
         return wantToQuit;
@@ -195,5 +198,10 @@ public class Game
     private void printLocationInfo()
     {
         System.out.println(currentRoom.getLongDescription());
+    }
+    
+     private void mirar()
+    {
+       printLocationInfo();
     }
 }
