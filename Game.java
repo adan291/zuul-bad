@@ -19,8 +19,7 @@ public class Game
 {
     private Parser parser;
     private Room currentRoom;
-    
-    
+
     /**
      * Create the game and initialise its internal map.
      */
@@ -51,18 +50,18 @@ public class Game
         sala.setExit("este",armas);
         sala.setExit("oeste",calabozo);
         calabozo.setExit("este",sala);
-        
+
         armas.setExit("norte",comedor);
-        
+
         comedor.setExit("norte",princesa);
         comedor.setExit("este",habitacionFlechas);
         comedor.setExit("oeste",foso);
-        
+
         foso.setExit("este",comedor);
-        
+
         habitacionFlechas.setExit("oeste",comedor);
         habitacionFlechas.setExit("noroeste",princesa);
-        
+
         princesa.setExit("suroeste",habitacionFlechas);
 
         currentRoom = sala;  // start game outside
@@ -125,14 +124,15 @@ public class Game
         else if (commandWord.equals("salir")) {
             wantToQuit = quit(command);
         }
-         else if (commandWord.equals("mirar")) {
-            mirar();
+        else if (commandWord.equals("mirar")) {
+             System.out.println(currentRoom.getLongDescription());
+        }else if(commandWord.equals("comer")) {
+            System.out.println("Umm?¡ La comida estaba deliciosa y ya no tienes hambre");
         }
 
         return wantToQuit;
     }
 
-    // implementations of user commands:
 
     /**
      * Print out some help information.
@@ -201,9 +201,9 @@ public class Game
     {
         System.out.println(currentRoom.getLongDescription());
     }
-    
-     private void mirar()
+
+    private void mirar()
     {
-       printLocationInfo();
+        printLocationInfo();
     }
 }
