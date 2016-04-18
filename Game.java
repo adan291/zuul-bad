@@ -37,14 +37,14 @@ public class Game
         Room sala, calabozo, armas, comedor, foso, habitacionFlechas, princesa;
 
         // create the rooms
-        sala = new Room("has entrado al castillo, y te encuentras en la sala de espera");
-        calabozo = new Room("estas en el calabozo y quedas encerrado");
-        armas = new Room("te encuentras en la sala de armas");
-        comedor = new Room("te encuentras en el comedor");
-        foso = new Room("caes en un foso");
+        sala = new Room("has entrado al castillo, y te encuentras en la sala de espera", "Llave de las puertas del castillo", 0.02F);
+        calabozo = new Room("estas en el calabozo y quedas encerrado", "Llave del calabozo", 0.03F);
+        armas = new Room("te encuentras en la sala de armas", "Espada", 2F);
+        comedor = new Room("te encuentras en el comedor", "Cadaver de Rey envenenado", 120F);
+        foso = new Room("caes en un foso", "Escalera", 4F);
         habitacionFlechas = new Room("entras en la habitacion, " +  
-            "y al pisar una baldosa algo suelta te disparan flechas");
-        princesa = new Room("salvaste a la princesa");
+            "y al pisar una baldosa algo suelta te disparan flechas", "Arco y flechas", 0.75F);
+        princesa = new Room("salvaste a la princesa", "Cuerda", 0.5F);
 
         // initialise room exits
         sala.setExit("este",armas);
