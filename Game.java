@@ -147,6 +147,7 @@ public class Game
         System.out.println("Hay trampas en las habitaciones recuerda");
         System.out.println("se acabo la ayuda de momento");
         parser.getCommandWord().showAll();
+        parser.printCommandWord();
     }
 
     /** 

@@ -70,4 +70,12 @@ public class Parser
     {
         return commands;
     }
+    
+    /**
+     * Print the commands in the class CommandWords
+     */
+    public void printCommandWord()
+    {
+       commands.showAll();
+    }
 }
