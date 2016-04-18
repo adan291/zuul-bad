@@ -62,4 +62,12 @@ public class Parser
             return new Command(null, word2); 
         }
     }
+    
+     /**
+     * Method getter that return the value of commands.
+     */
+    public CommandWords getCommandWord()
+    {
+        return commands;
+    }
 }
