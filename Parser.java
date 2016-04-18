@@ -63,13 +63,6 @@ public class Parser
         }
     }
     
-     /**
-     * Method getter that return the value of commands.
-     */
-    public CommandWords getCommandWord()
-    {
-        return commands;
-    }
     
     /**
      * Print the commands in the class CommandWords

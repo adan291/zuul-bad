@@ -37,14 +37,21 @@ public class Game
         Room sala, calabozo, armas, comedor, foso, habitacionFlechas, princesa;
 
         // create the rooms
-        sala = new Room("has entrado al castillo, y te encuentras en la sala de espera", "Llave de las puertas del castillo", 0.02F);
-        calabozo = new Room("estas en el calabozo y quedas encerrado", "Llave del calabozo", 0.03F);
-        armas = new Room("te encuentras en la sala de armas", "Espada", 2F);
-        comedor = new Room("te encuentras en el comedor", "Cadaver de Rey envenenado", 120F);
-        foso = new Room("caes en un foso", "Escalera", 4F);
+        sala = new Room("has entrado al castillo, y te encuentras en la sala de espera");
+        sala.addItem("Llave de las puertas del castillo", 0.02F);
+        calabozo = new Room("estas en el calabozo y quedas encerrado");
+        calabozo.addItem("Llave del calabozo", 0.03F);
+        armas = new Room("te encuentras en la sala de armas");
+        armas.addItem("Espada", 2F);
+        comedor = new Room("te encuentras en el comedor");
+        comedor.addItem("Cadaver de Rey envenenado", 120F);
+        foso = new Room("caes en un foso");
+        foso.addItem("Escalera", 4F);
         habitacionFlechas = new Room("entras en la habitacion, " +  
-            "y al pisar una baldosa algo suelta te disparan flechas", "Arco y flechas", 0.75F);
-        princesa = new Room("salvaste a la princesa", "Cuerda", 0.5F);
+            "y al pisar una baldosa algo suelta te disparan flechas");
+        habitacionFlechas.addItem("Arco y flechas", 0.75F);
+        princesa = new Room("salvaste a la princesa");
+        princesa.addItem("Cuerda", 0.5F);
 
         // initialise room exits
         sala.setExit("este",armas);
@@ -146,7 +153,6 @@ public class Game
         System.out.println();
         System.out.println("Hay trampas en las habitaciones recuerda");
         System.out.println("se acabo la ayuda de momento");
-        parser.getCommandWord().showAll();
         parser.printCommandWord();
     }
 
