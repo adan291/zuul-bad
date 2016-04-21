@@ -124,13 +124,13 @@ public class Player
     /**
      * Metodo que borra un objeto del arraylist items
      */
-    public void removeItem(String itemDescription)
+    public void removeItem(String itemName)
     {
         Iterator<Item> it = items.iterator();
         while(it.hasNext())
         {
             Item item = it.next();
-            if(item.getDescription().contains(itemDescription))
+            if(item.getDescription().contains(itemName))
             {
                 it.remove();
             }
@@ -154,20 +154,55 @@ public class Player
         }
         return itemsInfo;
     }
-    
-     /**
+
+    /**
      * Metodo que busca un objeto que pertenezca al arraylist items
      */
-    public Item searchItem(String itemDescription)
+    public Item searchItem(String itemName)
     {
         Item itemFound = null;
         for(int i = 0; i < items.size(); i++)
         {
-            if(items.get(i).getDescription().contains(itemDescription))
+            if(items.get(i).getDescription().contains(itemName))
             {
                 itemFound = items.get(i);
             }
         }
         return itemFound;
+    }
+
+    /**
+     * Intenta coger el objeto de la habitación .
+     * Si el peso maximo del obejto es mayor que el que puede coger el jugador o
+     * si no se puede añadir el artículo muestra un mensaje de error 
+     */
+    public void take(Command command)
+    {
+        if(!command.hasSecondWord()) {
+            // if there is no second word, we don't know where to go...
+            System.out.println("¿Que objeto quieres coger?");
+            return;
+        }
+
+        String itemString = command.getSecondWord();
+
+        if(currentRoom.emptyItems() == true)
+        {
+            System.out.println("No hay objetos en esa habitacion");
+        }else{
+            Item item = currentRoom.searchItem(itemString);
+            if(item == null)
+            {
+                System.out.println("No hay objetos con ese nombre");
+            }else{
+                boolean added = addItem(item);
+                if(added == true)
+                {
+                    currentRoom.removeItem(itemString);
+                }else{
+                    System.out.println("No puedes coger ese objeto");
+                }
+            }
+        }
     }
 }

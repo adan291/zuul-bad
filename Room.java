@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 /**
  * Class Room - a room in an adventure game.
  *
@@ -94,9 +95,9 @@ public class Room
     /**
      * Añadie nuevos items al ArrayList<Item>
      */
-    public void addItem(String itemDescription, float itemWeight)
+    public void addItem(String itemName, float itemWeight)
     {
-        items.add(new Item(itemDescription,itemWeight));
+        items.add(new Item(itemName,itemWeight));
     }
 
     /**
@@ -116,16 +117,32 @@ public class Room
      * Metodo que devuelve un objeto que coincida con la descripicion del objeto,
      * dentro del arraylist items
      */
-    public Item searchItem(String itemDescription)
+    public Item searchItem(String itemName)
     {
         Item itemMach = null;
         for(int i = 0; i < items.size(); i++)
         {
-            if(items.get(i).getItemName().equals(itemDescription))
+            if(items.get(i).getItemName().equals(itemName))
             {
                 itemMach = items.get(i);
             }
         }
         return itemMach;
+    }
+
+    /**
+     * Metodo que borra un objeto con el mismo nombre
+     */
+    public void removeItem(String itemName)
+    {
+        Iterator<Item> it = items.iterator();
+        while(it.hasNext())
+        {
+            Item item = it.next();
+            if(item.getItemName().equals(itemName))
+            {
+                it.remove();
+            }
+        }
     }
 }

@@ -126,24 +126,29 @@ public class Game
             printHelp();
         }
         else if (commandWord.equals("al")) {
-             player.goRoom(command);;
+            player.goRoom(command);;
         }
         else if (commandWord.equals("salir")) {
             wantToQuit = quit(command);
         }
         else if (commandWord.equals("mirar")) {
-              player.look();
+            player.look();
         }
         else if(commandWord.equals("comer")) {
             player.eat();
         }
         else if(commandWord.equals("volver")) {
             player.back();
-         }
+        }
+        else if(commandWord.equals("coger")) {
+            player.take(command);
+        }
+        else if(commandWord.equals("soltar")) {
+            player.take(command);
+        }
 
         return wantToQuit;
     }
-
 
     /**
      * Mensaje de ayuda para el juegador para dar pistas de lo que tiene que conseguir en el juego.
@@ -174,7 +179,7 @@ public class Game
         }
     }
 
-     /**
+    /**
      * Muestra al jugador lo que hay en la habitacion
      */
     private void mirar()
