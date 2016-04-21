@@ -6,36 +6,37 @@
  */
 public class Item
 {
-    private String itemDescription;
+    private String itemName;
     private float itemWeight;
     
     /**
-     * Constructor of class Item.
+     * Contructor de la clase Item
      */
-    public Item(String itemDescription, float itemWeight)
+    public Item(String itemName, float itemWeight)
     {
-        this.itemDescription = itemDescription;
+        this.itemName = itemName;
         this.itemWeight = itemWeight;
     }
     
     /**
-     * Return the values of atributes.
+     * Devuelve los atributos del objeto
      */
     public String getDescription()
     {
-        String description = "\n" + "Objeto: " + itemDescription + "   Tamaño del objeto: " + itemWeight + " Kg.";
+        String description = "\n" + "Objeto: " + itemName + "   Tamaño del objeto: " + itemWeight + " Kg.";
         return description;
-    }
-    /**
-     * Return the value of atribute itemDescription.
-     */
-    public String getItemDescription()
-    {
-        return itemDescription;
     }
     
     /**
-     * Return the value of atribute itemWeight.
+     * Devuelve el nombre del objeto 
+     */
+    public String getItemName()
+    {
+        return itemName;
+    }
+    
+    /**
+     * Devuelve el peso del objeto
      */
     public float getItemWeight()
     {

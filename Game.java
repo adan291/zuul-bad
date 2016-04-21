@@ -21,7 +21,7 @@ public class Game
     private Parser parser;
     private Player player;
     /**
-     * Create the game and initialise its internal map.
+     * Crea el juego y lo inicializa
      */
     public Game() 
     {
@@ -31,7 +31,7 @@ public class Game
     }
 
     /**
-     * Create all the rooms and link their exits together.
+     * Crea las habitaciones y lo que contienen
      */
     private void createRooms()
     {
@@ -76,7 +76,7 @@ public class Game
     }
 
     /**
-     *  Main play routine.  Loops until end of play.
+     *  Inicia el juego y hace que el juego no finalice o sea finalizado
      */
     public void play() 
     {            
@@ -93,7 +93,7 @@ public class Game
     }
 
     /**
-     * Print out the opening message for the player.
+     * Mensaje de informacion para el jugador y para empezar el juego
      */
     private void printWelcome()
     {
@@ -109,9 +109,8 @@ public class Game
     }
 
     /**
-     * Given a command, process (that is: execute) the command.
-     * @param command The command to be processed.
-     * @return true If the command ends the game, false otherwise.
+     * Se pasan los comandos que el jugador nos da por parametro y dependiendo de lo que el jugador
+     * haya puesto realizara la funcion que le corresponda
      */
     private boolean processCommand(Command command) 
     {
@@ -147,9 +146,7 @@ public class Game
 
 
     /**
-     * Print out some help information.
-     * Here we print some stupid, cryptic message and a list of the 
-     * command words.
+     * Mensaje de ayuda para el juegador para dar pistas de lo que tiene que conseguir en el juego.
      */
     private void printHelp() 
     {
@@ -177,6 +174,9 @@ public class Game
         }
     }
 
+     /**
+     * Muestra al jugador lo que hay en la habitacion
+     */
     private void mirar()
     {
         player.printLocationInfo();

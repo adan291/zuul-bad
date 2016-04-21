@@ -13,7 +13,7 @@ public class CommandWords
 {
     // a constant array that holds all valid command words
     private static final String[] validCommands = {
-        "al", "salir", "mago", "mirar", "comer", "volver"
+        "al", "salir", "mago", "mirar", "comer", "volver", "coger", "soltar", "objetos"
     };
 
     /**
@@ -40,7 +40,7 @@ public class CommandWords
     }
     
     /**
-     * Print all valid commands to System.out
+     * Muestra todos los comandos validos
      */
     public void showAll()
     {

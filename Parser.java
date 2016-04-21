@@ -64,7 +64,7 @@ public class Parser
     
     
     /**
-     * Print the commands in the class CommandWords
+     * Muestra los comandos de la clase CommandsWords
      */
     public void printCommandWord()
     {

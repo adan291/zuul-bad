@@ -98,4 +98,34 @@ public class Room
     {
         items.add(new Item(itemDescription,itemWeight));
     }
+
+    /**
+     * Metodo que devuelve true si el arraylist items esta lleno de objetos y false si no lo esta
+     */
+    public boolean emptyItems()
+    {
+        boolean itemsEmpty = false;
+        if(items.size() == 0)
+        {
+            itemsEmpty = true;
+        }
+        return itemsEmpty;
+    }
+
+    /**
+     * Metodo que devuelve un objeto que coincida con la descripicion del objeto,
+     * dentro del arraylist items
+     */
+    public Item searchItem(String itemDescription)
+    {
+        Item itemMach = null;
+        for(int i = 0; i < items.size(); i++)
+        {
+            if(items.get(i).getItemName().equals(itemDescription))
+            {
+                itemMach = items.get(i);
+            }
+        }
+        return itemMach;
+    }
 }

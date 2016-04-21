@@ -108,14 +108,17 @@ public class Player
     /**
      * Metodo que añade un objeto al arraylist items
      */
-    public void addItem(Item item)
+    public boolean addItem(Item item)
     {
+        boolean itemAdd = false;
         if(item.getItemWeight() > maxWeight)
         {
             System.out.println("Ese objeto que intentas coger pesa demasiado");
         }else{
             items.add(item);
+            itemAdd = true;
         }
+        return itemAdd;
     }
 
     /**
@@ -151,20 +154,20 @@ public class Player
         }
         return itemsInfo;
     }
-
-    /**
+    
+     /**
      * Metodo que busca un objeto que pertenezca al arraylist items
      */
     public Item searchItem(String itemDescription)
     {
-        Item itemToReturn = null;
+        Item itemFound = null;
         for(int i = 0; i < items.size(); i++)
         {
             if(items.get(i).getDescription().contains(itemDescription))
             {
-                itemToReturn = items.get(i);
+                itemFound = items.get(i);
             }
         }
-        return itemToReturn;
+        return itemFound;
     }
 }
