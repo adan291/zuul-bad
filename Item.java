@@ -26,4 +26,19 @@ public class Item
         String description = "\n" + "Objeto: " + itemDescription + "   Tamaño del objeto: " + itemWeight + " Kg.";
         return description;
     }
+    /**
+     * Return the value of atribute itemDescription.
+     */
+    public String getItemDescription()
+    {
+        return itemDescription;
+    }
+    
+    /**
+     * Return the value of atribute itemWeight.
+     */
+    public float getItemWeight()
+    {
+        return itemWeight;
+    }
 }

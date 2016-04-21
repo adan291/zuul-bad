@@ -179,6 +179,6 @@ public class Game
 
     private void mirar()
     {
-        printLocationInfo();
+        player.printLocationInfo();
     }
 }
