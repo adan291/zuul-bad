@@ -205,4 +205,45 @@ public class Player
             }
         }
     }
+
+    public void drop(Command command)
+    {
+        if(!command.hasSecondWord()) {
+            // if there is no second word, we don't know where to go...
+            System.out.println("¿Que objeto quieres soltar?");
+            return;
+        }
+
+        String itemString = command.getSecondWord();
+
+        if(items == null)
+        {
+            System.out.println("No tienes ese objeto");
+        }else{
+            Item item = searchItem(itemString);
+            String itemName = item.getItemName();
+            float itemWeight = item.getItemWeight();
+            if(item == null)
+            {
+                System.out.println("No hay objetos con esa descripción");
+            }else{
+                boolean added = currentRoom.addItem(itemName,itemWeight);
+                if(added == true)
+                {
+                    removeItem(itemString);
+                }else{
+                    System.out.println("No puedes soltar el objeto es esta habitacion");
+                }
+            }
+        }
+    }
+
+    public boolean emptyVisitedRooms()
+    {      return visitedRooms.empty();
+    }
+
+    public void removeVisitedRoom()
+    {
+        currentRoom = visitedRooms.pop();
+    }
 }

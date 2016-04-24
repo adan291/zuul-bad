@@ -25,9 +25,9 @@ public class Game
      */
     public Game() 
     {
-        createRooms();
         parser = new Parser();
         player = new Player ();
+        createRooms();
     }
 
     /**
@@ -138,6 +138,11 @@ public class Game
             player.eat();
         }
         else if(commandWord.equals("volver")) {
+            if(player.emptyVisitedRooms() == true)
+            {
+                player.removeVisitedRoom();
+            }
+            player.printLocationInfo();
             player.back();
         }
         else if(commandWord.equals("coger")) {
@@ -145,6 +150,9 @@ public class Game
         }
         else if(commandWord.equals("soltar")) {
             player.take(command);
+        }
+        else if(commandWord.equals("objetos")) {
+            System.out.println(player.getItemsInfo());
         }
 
         return wantToQuit;
