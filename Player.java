@@ -113,10 +113,11 @@ public class Player
         boolean itemAdd = false;
         if(item.getItemWeight() > maxWeight)
         {
-            System.out.println("Ese objeto que intentas coger pesa demasiado");
+            System.out.println("Ese objeto que intentas coger pesa demasiado o ya llevas demasiado");
         }else{
             items.add(item);
             itemAdd = true;
+            weight += item.getItemWeight();
         }
         return itemAdd;
     }
@@ -174,7 +175,8 @@ public class Player
     /**
      * Intenta coger el objeto de la habitación .
      * Si el peso maximo del obejto es mayor que el que puede coger el jugador o
-     * si no se puede añadir el artículo muestra un mensaje de error 
+     * Si no se puede añadir el artículo muestra un mensaje de error 
+     * 
      */
     public void take(Command command)
     {
@@ -189,23 +191,35 @@ public class Player
         if(currentRoom.emptyItems() == true)
         {
             System.out.println("No hay objetos en esa habitacion");
+            System.out.println("Que quieres hacer: ");
         }else{
             Item item = currentRoom.searchItem(itemString);
             if(item == null)
             {
                 System.out.println("No hay objetos con ese nombre");
+                System.out.println("Que quieres hacer: ");
             }else{
                 boolean added = addItem(item);
+
                 if(added == true)
                 {
                     currentRoom.removeItem(itemString);
+                    System.out.println("Lo/La has cogido");
+                    System.out.println("Que quieres hacer: ");
                 }else{
                     System.out.println("No puedes coger ese objeto");
+                    System.out.println("Que quieres hacer: ");
                 }
             }
         }
     }
 
+    /**
+     * Intenta soltar un objeto que lleve
+     * Si no tiene el objeto no puede soltarlo
+     * Si no hay objetos con ese nombre no puede soltarlo
+     * Si en esa habitacion no puede soltar ese objeto no lo suelta
+     */
     public void drop(Command command)
     {
         if(!command.hasSecondWord()) {
@@ -218,30 +232,43 @@ public class Player
 
         if(items == null)
         {
-            System.out.println("No tienes ese objeto");
+            System.out.println("No tienes objetos");
+            System.out.println("Que quieres hacer: ");
         }else{
             Item item = searchItem(itemString);
-            String itemName = item.getItemName();
-            float itemWeight = item.getItemWeight();
+            
             if(item == null)
             {
-                System.out.println("No hay objetos con esa descripción");
+                System.out.println("No tienes objetos con ese nombre");
+                System.out.println("Que quieres hacer: ");
             }else{
+                String itemName = item.getItemName();
+                float itemWeight = item.getItemWeight();
                 boolean added = currentRoom.addItem(itemName,itemWeight);
+
                 if(added == true)
                 {
                     removeItem(itemString);
+                    System.out.println("Lo/La has soltado" );
+                    System.out.println("Que quieres hacer: ");
                 }else{
                     System.out.println("No puedes soltar el objeto es esta habitacion");
+                    System.out.println("Que quieres hacer: ");
                 }
             }
         }
     }
 
+    /**
+     * Devuelve true si esta vacio y false si esta lleno
+     */
     public boolean emptyVisitedRooms()
     {      return visitedRooms.empty();
     }
 
+    /**
+     * Coge el objeto ultimo del stack
+     */
     public void removeVisitedRoom()
     {
         currentRoom = visitedRooms.pop();

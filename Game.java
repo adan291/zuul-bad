@@ -39,20 +39,20 @@ public class Game
 
         // create the rooms
         sala = new Room("has entrado al castillo, y te encuentras en la sala de espera");
-        sala.addItem("Llave de las puertas del castillo", 0.02F);
+        sala.addItem("pocion", 0.02F);
         calabozo = new Room("estas en el calabozo y quedas encerrado");
-        calabozo.addItem("Llave del calabozo", 0.03F);
+        calabozo.addItem("Llave", 0.03F);
         armas = new Room("te encuentras en la sala de armas");
-        armas.addItem("Espada", 2F);
+        armas.addItem("espada", 2F);
         comedor = new Room("te encuentras en el comedor");
-        comedor.addItem("Cadaver de Rey envenenado", 120F);
+        comedor.addItem("cadaver", 120F);
         foso = new Room("caes en un foso");
-        foso.addItem("Escalera", 4F);
+        foso.addItem("cuerda", 4F);
         habitacionFlechas = new Room("entras en la habitacion, " +  
             "y al pisar una baldosa algo suelta te disparan flechas");
-        habitacionFlechas.addItem("Arco y flechas", 0.75F);
+        habitacionFlechas.addItem("arco", 0.75F);
         princesa = new Room("salvaste a la princesa");
-        princesa.addItem("Cuerda", 0.5F);
+        princesa.addItem("flechas", 0.5F);
 
         // initialise room exits
         sala.setExit("este",armas);
@@ -103,9 +103,10 @@ public class Game
             "tu perspicacia para ir superando las pruebas y rescatar a la princesa");
         System.out.println("Escribe 'mago' si tu necesitas ayuda o 'mirar' para saber donde estas");
         System.out.println();
+        
         player.printLocationInfo();
-        System.out.print("Que direccion quieres tomar: ");
-        System.out.println();
+        System.out.println("Que quieres hacer: ");
+        
     }
 
     /**
@@ -142,14 +143,15 @@ public class Game
             {
                 player.removeVisitedRoom();
             }
-            player.printLocationInfo();
             player.back();
         }
         else if(commandWord.equals("coger")) {
             player.take(command);
+            
         }
         else if(commandWord.equals("soltar")) {
-            player.take(command);
+            player.drop(command);
+            
         }
         else if(commandWord.equals("objetos")) {
             System.out.println(player.getItemsInfo());
