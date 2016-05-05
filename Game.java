@@ -41,16 +41,16 @@ public class Game
         sala = new Room("has entrado al castillo, y te encuentras en la sala de espera");
         sala.addItem("pocion", 0.02F);
         calabozo = new Room("estas en el calabozo y quedas encerrado");
-        calabozo.addItem("Llave", 0.03F);
+        calabozo.addItem("llave", 0.05F);
         armas = new Room("te encuentras en la sala de armas");
         armas.addItem("espada", 2F);
         comedor = new Room("te encuentras en el comedor");
         comedor.addItem("cadaver", 120F);
         foso = new Room("caes en un foso");
-        foso.addItem("cuerda", 4F);
+        foso.addItem("cuerda", 0.7F);
         habitacionFlechas = new Room("entras en la habitacion, " +  
             "y al pisar una baldosa algo suelta te disparan flechas");
-        habitacionFlechas.addItem("arco", 0.75F);
+        habitacionFlechas.addItem("arco", 0.65F);
         princesa = new Room("salvaste a la princesa");
         princesa.addItem("flechas", 0.5F);
 
@@ -122,38 +122,38 @@ public class Game
             return false;
         }
 
-        String commandWord = command.getCommandWord();
-        if (commandWord.equals("mago")) {
+        Option commandWord = command.getCommandWord();
+        if (commandWord == Option.HELP) {
             printHelp();
         }
-        else if (commandWord.equals("al")) {
-            player.goRoom(command);;
+        else if (commandWord == Option.GO) {
+            player.goRoom(command);
         }
-        else if (commandWord.equals("salir")) {
+        else if (commandWord == Option.QUIT) {
             wantToQuit = quit(command);
         }
-        else if (commandWord.equals("mirar")) {
+        else if (commandWord == Option.LOOK) {
             player.look();
         }
-        else if(commandWord.equals("comer")) {
+        else if(commandWord == Option.EAT) {
             player.eat();
         }
-        else if(commandWord.equals("volver")) {
+        else if(commandWord == Option.BACK) {
             if(player.emptyVisitedRooms() == true)
             {
                 player.removeVisitedRoom();
             }
             player.back();
         }
-        else if(commandWord.equals("coger")) {
+        else if(commandWord == Option.TAKE) {
             player.take(command);
             
         }
-        else if(commandWord.equals("soltar")) {
+        else if(commandWord == Option.DROP) {
             player.drop(command);
             
         }
-        else if(commandWord.equals("objetos")) {
+        else if(commandWord == Option.ITEMS) {
             System.out.println(player.getItemsInfo());
         }
 

@@ -1,3 +1,4 @@
+import java.util.HashMap;   
 /**
  * This class is part of the "World of Zuul" application. 
  * "World of Zuul" is a very simple, text based adventure game.  
@@ -12,16 +13,23 @@
 public class CommandWords
 {
     // a constant array that holds all valid command words
-    private static final String[] validCommands = {
-        "al", "salir", "mago", "mirar", "comer", "volver", "coger", "soltar", "objetos"
-    };
-
+    private static HashMap<String,Option> validCommands;
     /**
      * Constructor - initialise the command words.
      */
     public CommandWords()
     {
-        // nothing to do at the moment...
+        // nothing to do at the mvalidCommands = new HashMap<>();
+        validCommands = new HashMap<String,Option>();
+        validCommands.put("mago",Option.HELP);
+        validCommands.put("ir",Option.GO);
+        validCommands.put("salir",Option.QUIT);
+        validCommands.put("mirar",Option.LOOK);
+        validCommands.put("comer",Option.EAT);
+        validCommands.put("volver",Option.BACK);
+        validCommands.put("coger",Option.TAKE);
+        validCommands.put("soltar",Option.DROP);
+        validCommands.put("objetos",Option.ITEMS);
     }
 
     /**
@@ -31,22 +39,32 @@ public class CommandWords
      */
     public boolean isCommand(String aString)
     {
-        for(int i = 0; i < validCommands.length; i++) {
-            if(validCommands[i].equals(aString))
-                return true;
-        }
-        // if we get here, the string was not found in the commands
-        return false;
+        boolean booleanToReturn = validCommands.containsKey(aString);
+        return booleanToReturn;
     }
-    
+
     /**
      * Muestra todos los comandos validos
      */
     public void showAll()
     {
-        for(int i = 0; i < validCommands.length; i++)
-        {
-            System.out.println(validCommands[i]);
+        for (String key : validCommands.keySet()){
+            System.out.print(key +", ");
         }
+    }
+
+    /**
+     * Return the object Option associated with a word.
+     * @param commandWord The word to look up (as a string).
+     * @return the object Option correspondng to the paramater commandWord, or the object Option.UNKNOWN
+     *         if it is not a valid command word
+     */
+    public Option getCommandWord(String commandWord)
+    {
+        Option option = Option.UNKNOWN;  
+        if(isCommand(commandWord)){          
+            option = validCommands.get(commandWord);
+        }
+        return option;
     }
 }
