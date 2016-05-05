@@ -21,15 +21,10 @@ public class CommandWords
     {
         // nothing to do at the mvalidCommands = new HashMap<>();
         validCommands = new HashMap<String,Option>();
-        validCommands.put("mago",Option.HELP);
-        validCommands.put("ir",Option.GO);
-        validCommands.put("salir",Option.QUIT);
-        validCommands.put("mirar",Option.LOOK);
-        validCommands.put("comer",Option.EAT);
-        validCommands.put("volver",Option.BACK);
-        validCommands.put("coger",Option.TAKE);
-        validCommands.put("soltar",Option.DROP);
-        validCommands.put("objetos",Option.ITEMS);
+         Option[] comands = Option.values();
+        for (Option option : comands) {
+             validCommands.put(option.getComando(), option);
+        }
     }
 
     /**
@@ -49,7 +44,7 @@ public class CommandWords
     public void showAll()
     {
         for (String key : validCommands.keySet()){
-            System.out.print(key +", ");
+            System.out.println(key);
         }
     }
 

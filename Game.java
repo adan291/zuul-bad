@@ -101,12 +101,12 @@ public class Game
         System.out.println("Bienvenido al mundo LostPrincess");
         System.out.println("LostPrincess es un juego donde deberas usar tu intuicion y " + 
             "tu perspicacia para ir superando las pruebas y rescatar a la princesa");
-        System.out.println("Escribe 'mago' si tu necesitas ayuda o 'mirar' para saber donde estas");
+        System.out.println("Si tu necesitas ayuda escribe: " + Option.HELP.getComando() );
         System.out.println();
-        
+
         player.printLocationInfo();
         System.out.println("Que quieres hacer: ");
-        
+
     }
 
     /**
@@ -116,45 +116,49 @@ public class Game
     private boolean processCommand(Command command) 
     {
         boolean wantToQuit = false;
-
+        Option commandWord = command.getCommandWord();
         if(command.isUnknown()) {
-            System.out.println("Que es lo que quieres hacer, por ahi no hay nada");
+            System.out.println("No entiendo que es lo que quieres hacer");
+            System.out.println("¿Que quieres hacer?");
             return false;
         }
-
-        Option commandWord = command.getCommandWord();
-        if (commandWord == Option.HELP) {
+        switch(command.getCommandWord()){
+            case HELP:
             printHelp();
-        }
-        else if (commandWord == Option.GO) {
+            break;
+
+            case GO:
             player.goRoom(command);
-        }
-        else if (commandWord == Option.QUIT) {
+            break;
+            case QUIT:
             wantToQuit = quit(command);
-        }
-        else if (commandWord == Option.LOOK) {
+            break;
+
+            case LOOK:
             player.look();
-        }
-        else if(commandWord == Option.EAT) {
+            break;
+            case EAT:
             player.eat();
-        }
-        else if(commandWord == Option.BACK) {
-            if(player.emptyVisitedRooms() == true)
-            {
+            break;
+            case BACK:
+            if(player.emptyVisitedRooms() == true){
                 player.removeVisitedRoom();
             }
-            player.back();
-        }
-        else if(commandWord == Option.TAKE) {
+            else{
+                player.back();
+            }
+            break;
+
+            case TAKE:
             player.take(command);
-            
-        }
-        else if(commandWord == Option.DROP) {
+            break;
+            case DROP:
             player.drop(command);
-            
-        }
-        else if(commandWord == Option.ITEMS) {
+
+            break;
+            case ITEMS:
             System.out.println(player.getItemsInfo());
+            break;
         }
 
         return wantToQuit;
@@ -169,8 +173,9 @@ public class Game
         System.out.println("Puede ser la princesa. Recorre el castillo");
         System.out.println();
         System.out.println("Hay trampas en las habitaciones recuerda");
-        System.out.println("se acabo la ayuda de momento");
+        System.out.println("Estos son los comandos:");
         parser.printCommandWord();
+        System.out.println("\nNo hay mas ayuda");
     }
 
     /** 
