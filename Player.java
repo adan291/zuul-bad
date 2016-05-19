@@ -291,6 +291,11 @@ public class Player
     {
         currentRoom = visitedRooms.pop();
     }
+    
+     public void modificaRes(int res)
+    {
+        resistencia += res; 
+    }
 
     public void hablar()
     {

@@ -1,4 +1,4 @@
-import java.util.Random;
+
 import java.util.Stack;
 /**
  *  This class is the main class of the "World of Zuul" application. 
@@ -27,9 +27,8 @@ public class Game
      */
     public Game() 
     {
-         Random rand = new Random();
         parser = new Parser();
-        player = new Player(((rand.nextFloat()*20F) +20F), 50, 5);
+        player = new Player(50, 5);
         onCombat = false;
         createRooms();
     }
@@ -102,6 +101,11 @@ public class Game
         while (! finished) {
             Command command = parser.getCommand();
             finished = processCommand(command);
+            if(player.getResistencia() <= 0)
+            {
+                muerte();
+                finished = true;
+            }
         }
         System.out.println("Gracias por jugar, nos vemos pronto");
     }
@@ -151,11 +155,11 @@ public class Game
                 player.atacar();
                 onCombat = combat();
                 break;
-                
+
                 case GO:
                 player.goRoom(command);
                 break;
-                
+
                 case BACK:
                 if(player.emptyVisitedRooms() == true){
                     player.removeVisitedRoom();
@@ -220,9 +224,8 @@ public class Game
 
             }
 
-            return wantToQuit;
         }
-
+        return wantToQuit;
     }
 
     /**
@@ -277,6 +280,11 @@ public class Game
             player.modificaRes(-1 * (pnj.getAtaque()));
         }
         return continua;
+    }
+
+    private void muerte()
+    {
+        System.out.println("Tu personaje ha muerto. Ha terminado la partida");
     }
 
 }
