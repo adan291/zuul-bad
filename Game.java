@@ -1,3 +1,5 @@
+import java.util.Random;
+import java.util.Stack;
 /**
  *  This class is the main class of the "World of Zuul" application. 
  *  "World of Zuul" is a very simple, text based adventure game.  Users 
@@ -19,13 +21,16 @@ public class Game
 {
     private Parser parser;
     private Player player;
+    private boolean onCombat;
     /**
      * Crea el juego y lo inicializa
      */
     public Game() 
     {
+         Random rand = new Random();
         parser = new Parser();
-        player = new Player ();
+        player = new Player(((rand.nextFloat()*20F) +20F), 50, 5);
+        onCombat = false;
         createRooms();
     }
 
@@ -36,8 +41,6 @@ public class Game
     {
         Room sala, calabozo, armas, comedor, foso, habitacionFlechas, torreon;
         NPC esqueleto, princesa, rey;
-        
-        
 
         // create the rooms
         sala = new Room("has entrado al castillo, y te encuentras en la sala de espera");
@@ -55,17 +58,16 @@ public class Game
         habitacionFlechas.addItem("arco", 0.65F);
         torreon = new Room("salvaste a la princesa");
         torreon.addItem("flechas", 0.5F);
-        
-        
+
         //Creamos los personajes
         esqueleto = new NPC(true, "guerrero", "!Intruso!, VAS A MORIR", "Un no-muerto con armadura y espada", 15, 75);
         princesa = new NPC(false, "princesa", "!OOOO¡ Mi heroes, ¿vienes a salvarme?", "Una princesa encerrada en el castillo", 0, 1000);
         rey = new NPC(true, "rey del castillo", "¡¿Que haces en mi morada!?, ¡a las armas!", "Un no-muerto con vestimenta de reyes y arma con escudo", 30, 120);
-        
+
         //Añade los personajes en las localizaciones
         calabozo.addPNJ(esqueleto);
         torreon.addPNJ(princesa);
-        
+
         // initialise room exits
         sala.setExit("este",armas);
         sala.setExit("oeste",calabozo);
@@ -134,46 +136,93 @@ public class Game
             System.out.println("¿Que quieres hacer?");
             return false;
         }
-        switch(command.getCommandWord()){
-            case HELP:
-            printHelp();
-            break;
 
-            case GO:
-            player.goRoom(command);
-            break;
-            case QUIT:
-            wantToQuit = quit(command);
-            break;
+        if(onCombat){
+            switch(command.getCommandWord()){
+                case HELP:
+                printHelp();
+                break;
 
-            case LOOK:
-            player.look();
-            break;
-            case EAT:
-            player.eat();
-            break;
-            case BACK:
-            if(player.emptyVisitedRooms() == true){
-                player.removeVisitedRoom();
+                case QUIT:
+                wantToQuit = quit(command);
+                break;
+
+                case ATACAR:
+                player.atacar();
+                onCombat = combat();
+                break;
+                
+                case GO:
+                player.goRoom(command);
+                break;
+                
+                case BACK:
+                if(player.emptyVisitedRooms() == true){
+                    player.removeVisitedRoom();
+                }
+                else{
+                    player.back();
+                }
+                break;
+
             }
-            else{
-                player.back();
-            }
-            break;
-
-            case TAKE:
-            player.take(command);
-            break;
-            case DROP:
-            player.drop(command);
-
-            break;
-            case ITEMS:
-            System.out.println(player.getItemsInfo());
-            break;
         }
 
-        return wantToQuit;
+        else{
+            switch(command.getCommandWord()){
+                case HELP:
+                printHelp();
+                break;
+
+                case GO:
+                player.goRoom(command);
+                break;
+
+                case QUIT:
+                wantToQuit = quit(command);
+                break;
+
+                case LOOK:
+                player.look();
+                break;
+
+                case EAT:
+                player.eat();
+                break;
+                case BACK:
+                if(player.emptyVisitedRooms() == true){
+                    player.removeVisitedRoom();
+                }
+                else{
+                    player.back();
+                }
+                break;
+
+                case HABLAR:
+                player.hablar();
+                break;
+
+                case TAKE:
+                player.take(command);
+                break;
+                case DROP:
+                player.drop(command);
+
+                break;
+                case ITEMS:
+                System.out.println(player.getItemsInfo());
+                break;
+
+                case ATACAR:
+                player.atacar();
+                onCombat = combat();
+                break;
+
+            }
+
+            return wantToQuit;
+        }
+
     }
 
     /**
@@ -213,5 +262,22 @@ public class Game
     {
         player.printLocationInfo();
     }
+
+    private boolean combat()
+    {
+        NPC pnj = player.getPNJ();
+        boolean continua = true;
+        if((player.getResistencia() < 0) || (pnj.getResistencia() < 0))
+        {
+            continua = false;
+        }
+        else
+        {
+            System.out.println(pnj.getNombre() + " te golpea y te hace " + player.getAtaque() + " puntos de daño");
+            player.modificaRes(-1 * (pnj.getAtaque()));
+        }
+        return continua;
+    }
+
 }
 

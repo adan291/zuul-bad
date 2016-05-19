@@ -13,16 +13,22 @@ public class Player
     private Stack<Room> visitedRooms;
     private ArrayList<Item> items;
     private float weight;
+    private boolean enCombate;
+    private int resistencia;
+    private int ataque;
     private final static float maxWeight = 7.5F;
 
     /**
      * Contructor del jugador
      */
-    public Player()
+    public Player(int resistencia, int ataque)
     {
         visitedRooms = new Stack<>();
         items = new ArrayList<>();
+        this.resistencia = resistencia;
+        this.ataque = ataque;
         weight = 0.0F;
+        this.enCombate = false;
     }
 
     /**
@@ -85,7 +91,12 @@ public class Player
      */
     public void look()
     {
-        System.out.println(currentRoom.getLongDescription());
+        if(!enCombate){
+            System.out.println(currentRoom.getLongDescription());
+        }
+        else{
+            System.out.println("No puedes hacer eso en combate");
+        }
     }
 
     /**
@@ -93,8 +104,10 @@ public class Player
      */
     public void back()
     {
+
         currentRoom = visitedRooms.pop();
         printLocationInfo();
+
     }
 
     /**
@@ -102,7 +115,12 @@ public class Player
      */
     public void eat()
     {
-        System.out.println("Umm?¡ La comida estaba deliciosa y ya no tienes hambre");
+        if(!enCombate){
+            System.out.println("Umm?¡ La comida estaba deliciosa y ya no tienes hambre");
+        }
+        else{
+            System.out.println("No puedes hacer eso en combate");
+        }
     }
 
     /**
@@ -236,7 +254,7 @@ public class Player
             System.out.println("Que quieres hacer: ");
         }else{
             Item item = searchItem(itemString);
-            
+
             if(item == null)
             {
                 System.out.println("No tienes objetos con ese nombre");
@@ -273,4 +291,70 @@ public class Player
     {
         currentRoom = visitedRooms.pop();
     }
+
+    public void hablar()
+    {
+        if(currentRoom.getPNJ() != null)
+        {
+            Item obj = currentRoom.getPNJ().hablar();
+            if (obj != null)
+            {
+                boolean exito = addItem(obj);
+                if(exito)
+                {
+                    currentRoom.getPNJ().remove(obj);
+                }
+                else
+                {
+                    System.out.println("No puedes recibir el objeto que te intenta dar");
+                }
+            }
+        }
+    }
+
+    public void entraEnCombate()
+    {
+        enCombate = true;
+    }
+
+    /**
+     * Saca al jugador de combate
+     */
+    public void saleDeCombate()
+    {
+        enCombate = false;
+    }
+
+     public void atacar()
+    {
+        System.out.println("Golpeas a " + getPNJ().getNombre() + " y le haces " + ataque + " puntos de daño");
+        getPNJ().restaRes(ataque);
+    }
+    
+    
+     public NPC getPNJ()
+    {
+        return currentRoom.getPNJ();
+    }
+    
+    
+    
+    
+    public void sumaResistencia(int res)
+    {
+        resistencia += res; 
+    }
+    
+     
+    public int getResistencia()
+    {
+        return resistencia;
+    }
+
+   
+    public int getAtaque()
+    {
+        return ataque;
+    }
+
 }
