@@ -20,7 +20,7 @@ public class Room
     public String description;
     private HashMap<String,Room> direcciones;
     private ArrayList <Item> items;
-
+    private NPC pnj;
     /**
      * Create a room described "description". Initially, it has
      * no exits. "description" is something like "a kitchen" or
@@ -32,6 +32,7 @@ public class Room
         this.description = description;
         direcciones = new HashMap<>();
         items = new ArrayList<>();
+        pnj = null;
     }
 
     /**
@@ -82,21 +83,35 @@ public class Room
      *     Exits: north west southwest
      * @return A description of the room, including exits.
      */
-    public String getLongDescription()
+     public String getLongDescription()
     {
-        String longDescription = "Tu estas en el " + getDescription() + "\n"  + getExitString();
-        for(int i = 0; i < items.size(); i++)
+        String descr = "";
+        descr = "\nEstas en " + description + "\nSalidas: " + getExitString();
+        // Si hay algun objeto en la habitación, lo incluye en la descripción
+        if (items.size() > 0)
         {
-            longDescription += items.get(i).getDescription();
+            descr += "\nVes los siguientes objetos:";
+            for(int i = 0; i < items.size(); i++)
+            {
+                descr += "\n- " + items.get(i).getDescription();
+            }
         }
-        return longDescription;
+        else
+        {
+            descr += "\nNo ves nada aqui";
+        }
+        if(pnj != null)
+        {
+            descr +="\nTe encuentras aqui con: \n" + pnj.description();
+        }
+        return descr;
     }
 
     /**
      * Añadie nuevos items al ArrayList<Item>
      */
     public boolean addItem(String itemName, float itemWeight)
-   {
+    {
         boolean booleanToReturn = false;
         if(items.add(new Item(itemName,itemWeight)))
         {
@@ -104,7 +119,6 @@ public class Room
         }
         return booleanToReturn;
     }
-    
 
     /**
      * Metodo que devuelve true si el arraylist items esta lleno de objetos y false si no lo esta
@@ -150,5 +164,10 @@ public class Room
                 it.remove();
             }
         }
+    }
+    
+    public void addPNJ(NPC pnj)
+     {
+         this.pnj = pnj;
     }
 }

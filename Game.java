@@ -1,4 +1,3 @@
-
 /**
  *  This class is the main class of the "World of Zuul" application. 
  *  "World of Zuul" is a very simple, text based adventure game.  Users 
@@ -53,7 +52,10 @@ public class Game
         habitacionFlechas.addItem("arco", 0.65F);
         princesa = new Room("salvaste a la princesa");
         princesa.addItem("flechas", 0.5F);
-
+        
+        //Añade los personajes en las localizaciones
+        
+        
         // initialise room exits
         sala.setExit("este",armas);
         sala.setExit("oeste",calabozo);
@@ -202,3 +204,4 @@ public class Game
         player.printLocationInfo();
     }
 }
+
