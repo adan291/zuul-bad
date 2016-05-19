@@ -362,6 +362,24 @@ public class Player
     {
         return resistencia;
     }
+    
+     private Item search(String nombre)
+    {
+        boolean find = false;
+        int index = 0;
+        Item objeto = null;
+        // Busca el objeto en el inventario
+        while((index < items.size()) & (!find))
+        {
+            if(nombre.equals(items.get(index).getItemName()))
+            {
+                objeto = items.get(index);
+                find = true;
+            }
+            index++;
+        }
+        return objeto;
+    }
 
     public void equipar(String nombre)
     {
@@ -369,7 +387,7 @@ public class Player
         if(objeto != null)
          {
              equipo = objeto;
-             System.out.println("Equipas " + objeto.getNombreObj() + " y te proporciona " + objeto.getAtaque() + " ataque");
+             System.out.println("Equipas " + objeto.getItemName() + " y te proporciona " + objeto.getAtaque() + " ataque");
          }
          else
          {

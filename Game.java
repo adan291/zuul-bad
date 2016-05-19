@@ -66,7 +66,10 @@ public class Game
         //Añade los personajes en las localizaciones
         calabozo.addPNJ(esqueleto);
         torreon.addPNJ(princesa);
-
+        
+        //da objetos a los npc
+       princesa.addItem(new Item("Beso que te convierte en principe y salva a la princesa", 0.F, -1));
+       rey.addItem(new Item("anillo para gobernarlos a todos", 0.2F, -1));
         // initialise room exits
         sala.setExit("este",armas);
         sala.setExit("oeste",calabozo);
