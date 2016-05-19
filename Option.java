@@ -8,7 +8,7 @@
 public enum Option
 {
     GO("ir"), QUIT("salir"), HELP("mago"),LOOK("mirar"),EAT("comer"),BACK("volver"),
-     TAKE("coger"),DROP("soltar"),ITEMS("objetos"),HABLAR("hablar"),ATACAR("atacar") ,UNKNOWN("");
+     TAKE("coger"),DROP("soltar"),ITEMS("objetos"),HABLAR("hablar"),ATACAR("atacar"),EQUIPAR("equipar"),UNKNOWN("");
      
      private String comando;
      

@@ -141,88 +141,58 @@ public class Game
             return false;
         }
 
-        if(onCombat){
-            switch(command.getCommandWord()){
-                case HELP:
-                printHelp();
-                break;
+        switch(command.getCommandWord()){
+            case HELP:
+            printHelp();
+            break;
 
-                case QUIT:
-                wantToQuit = quit(command);
-                break;
+            case GO:
+            player.goRoom(command);
+            break;
 
-                case ATACAR:
-                player.atacar();
-                onCombat = combat();
-                break;
+            case QUIT:
+            wantToQuit = quit(command);
+            break;
 
-                case GO:
-                player.goRoom(command);
-                break;
+            case LOOK:
+            player.look();
+            break;
 
-                case BACK:
-                if(player.emptyVisitedRooms() == true){
-                    player.removeVisitedRoom();
-                }
-                else{
-                    player.back();
-                }
-                break;
-
+            case EAT:
+            player.eat();
+            break;
+            case BACK:
+            if(player.emptyVisitedRooms() == true){
+                player.removeVisitedRoom();
             }
-        }
-
-        else{
-            switch(command.getCommandWord()){
-                case HELP:
-                printHelp();
-                break;
-
-                case GO:
-                player.goRoom(command);
-                break;
-
-                case QUIT:
-                wantToQuit = quit(command);
-                break;
-
-                case LOOK:
-                player.look();
-                break;
-
-                case EAT:
-                player.eat();
-                break;
-                case BACK:
-                if(player.emptyVisitedRooms() == true){
-                    player.removeVisitedRoom();
-                }
-                else{
-                    player.back();
-                }
-                break;
-
-                case HABLAR:
-                player.hablar();
-                break;
-
-                case TAKE:
-                player.take(command);
-                break;
-                case DROP:
-                player.drop(command);
-
-                break;
-                case ITEMS:
-                System.out.println(player.getItemsInfo());
-                break;
-
-                case ATACAR:
-                player.atacar();
-                onCombat = combat();
-                break;
-
+            else{
+                player.back();
             }
+            break;
+
+            case HABLAR:
+            player.hablar();
+            break;
+
+            case TAKE:
+            player.take(command);
+            break;
+            case DROP:
+            player.drop(command);
+
+            break;
+            case ITEMS:
+            System.out.println(player.getItemsInfo());
+            break;
+
+            case EQUIPAR:
+            equipar(command);
+            break;
+
+            case ATACAR:
+            player.atacar();
+            onCombat = combat();
+            break;
 
         }
         return wantToQuit;
@@ -285,6 +255,20 @@ public class Game
     private void muerte()
     {
         System.out.println("Tu personaje ha muerto. Ha terminado la partida");
+    }
+
+    private void equipar(Command command) 
+    {
+        if(!command.hasSecondWord()) {
+            // if there is no second word, we don't know what to equip...
+            System.out.println("¿Que quieres equipar?");
+            return;
+        }
+
+        String objeto = command.getSecondWord();
+
+        // Intenta equipar el objeto
+        player.equipar(objeto);
     }
 
 }

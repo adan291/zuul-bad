@@ -363,6 +363,18 @@ public class Player
         return resistencia;
     }
 
-  
+    public void equipar(String nombre)
+    {
+        Item objeto = search(nombre);
+        if(objeto != null)
+         {
+             equipo = objeto;
+             System.out.println("Equipas " + objeto.getNombreObj() + " y te proporciona " + objeto.getAtaque() + " ataque");
+         }
+         else
+         {
+            System.out.println("No tienes ese objeto en tu inventario para equiparlo");
+        }
+     }
 
 }
