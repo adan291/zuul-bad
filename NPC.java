@@ -1,5 +1,5 @@
 import java.util.ArrayList;
-
+import java.util.Random;
 
 /**
  * Write a description of class NPC here.
@@ -11,22 +11,55 @@ public class NPC
 {
     private boolean agresivo;
     private String nombre;
+    private String conversacion;
     private String descripcion;
     private int ataque;
     private int resistencia;
     private ArrayList<Item> inventario;
 
-     public NPC(boolean agresivo, String nombre, String descripcion, int ataque, int resistencia)
+    /**
+     * Constructor for objects of class NPC
+     * @param agresivo Si es un PNJ agresivo o no
+     * @param nombre El nombre del PNJ
+     * @param conversacion La respuesta del PNJ al comando hablar
+     * @param descripcion La descripcion del PNJ
+     * @param ataque El ataque del PNJ
+     * @param resistencia La resistencia del PNJ
+     */
+    public NPC(boolean agresivo, String nombre, String conversacion, String descripcion, int ataque, int resistencia)
     {
         this.agresivo = agresivo;
         this.nombre = nombre;
+        this.conversacion = conversacion;
         this.descripcion = descripcion;
         this.ataque = ataque;
         this.resistencia = resistencia;
         inventario = new ArrayList<Item>();
     }
 
-    
+    /**
+     * Habla con el jugador, muestra la respuesta que tenga el PNJ al comando hablar. Si el PNJ
+     * tiene algun objeto que entregar al jugador, se lo entregara.
+     * @return Si el PNJ tiene algun objeto que entregar la jugador, ese objeto, sino null
+     */
+    public Item hablar()
+    {
+        // Si no es agresivo le contesta
+        Item obj = null;
+        if(!agresivo)
+        {
+            System.out.println(conversacion);
+            // Si tiene objetos en el inventario, los entrega
+            if(inventario.size() > 0)
+            {
+                Random rand = new Random();
+                String nombre = inventario.get(rand.nextInt(inventario.size())).getItemName();
+                obj = search(nombre);
+            }
+        }
+        return obj;
+    }
+
     /**
      * Resta resistencia al PNJ
      * @param res La resistencia a restar
@@ -35,7 +68,7 @@ public class NPC
     {
         resistencia -= res;
     }
-    
+
     /**
      * Devuelve un objeto del inventario indicado por parametro
      * @param nombre El nombre del objeto a entregar
@@ -58,7 +91,7 @@ public class NPC
         }
         return objeto;
     }
-    
+
     /**
      * Elimina un objeto del inventario del PNJ pasado como parametro
      * @param obj El objeto a eliminar del inventario
@@ -67,7 +100,7 @@ public class NPC
     {
         inventario.remove(obj);
     }
-    
+
     /**
      * Devuelve la resistencia del PNJ
      * @return La resisencia del PNJ
@@ -76,7 +109,7 @@ public class NPC
     {
         return resistencia;
     }
-    
+
     /**
      * Devuelve el ataque del PNJ
      * @return El ataque del PNJ
@@ -85,7 +118,11 @@ public class NPC
     {
         return ataque;
     }
-    
+
+    /**
+     * Añade un objeto al inventario del PNJ
+     * @param obj El objeto a añadir al inventario
+     */
     public void addItem(Item obj)
     {
         inventario.add(obj);
@@ -118,11 +155,11 @@ public class NPC
         String desc = "";
         if(!agresivo)
         {
-            desc = nombre + ", " + descripcion + " (amistoso)";
+            desc = nombre + ", " +descripcion + " (amistoso)";
         }
         else
         {
-            desc = nombre + ", " + descripcion + " (agresivo)";
+            desc = nombre + ", " +descripcion + " (agresivo)";
         }
         return desc;
     }

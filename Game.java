@@ -34,7 +34,10 @@ public class Game
      */
     private void createRooms()
     {
-        Room sala, calabozo, armas, comedor, foso, habitacionFlechas, princesa;
+        Room sala, calabozo, armas, comedor, foso, habitacionFlechas, torreon;
+        NPC esqueleto, princesa, rey;
+        
+        
 
         // create the rooms
         sala = new Room("has entrado al castillo, y te encuentras en la sala de espera");
@@ -50,11 +53,18 @@ public class Game
         habitacionFlechas = new Room("entras en la habitacion, " +  
             "y al pisar una baldosa algo suelta te disparan flechas");
         habitacionFlechas.addItem("arco", 0.65F);
-        princesa = new Room("salvaste a la princesa");
-        princesa.addItem("flechas", 0.5F);
+        torreon = new Room("salvaste a la princesa");
+        torreon.addItem("flechas", 0.5F);
+        
+        
+        //Creamos los personajes
+        esqueleto = new NPC(true, "guerrero", "!Intruso!, VAS A MORIR", "Un no-muerto con armadura y espada", 15, 75);
+        princesa = new NPC(false, "princesa", "!OOOO¡ Mi heroes, ¿vienes a salvarme?", "Una princesa encerrada en el castillo", 0, 1000);
+        rey = new NPC(true, "rey del castillo", "¡¿Que haces en mi morada!?, ¡a las armas!", "Un no-muerto con vestimenta de reyes y arma con escudo", 30, 120);
         
         //Añade los personajes en las localizaciones
-        
+        calabozo.addPNJ(esqueleto);
+        torreon.addPNJ(princesa);
         
         // initialise room exits
         sala.setExit("este",armas);
@@ -63,16 +73,16 @@ public class Game
 
         armas.setExit("norte",comedor);
 
-        comedor.setExit("norte",princesa);
+        comedor.setExit("norte",torreon);
         comedor.setExit("este",habitacionFlechas);
         comedor.setExit("oeste",foso);
 
         foso.setExit("este",comedor);
 
         habitacionFlechas.setExit("oeste",comedor);
-        habitacionFlechas.setExit("noroeste",princesa);
+        habitacionFlechas.setExit("noroeste",torreon);
 
-        princesa.setExit("suroeste",habitacionFlechas);
+        torreon.setExit("suroeste",habitacionFlechas);
 
         player.setCurrentRoom(sala);  // start game outside
     }

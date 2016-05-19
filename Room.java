@@ -170,4 +170,10 @@ public class Room
      {
          this.pnj = pnj;
     }
+    
+     public NPC getPNJ()
+    {
+         return pnj;
+   }
+  		  
 }
