@@ -16,6 +16,7 @@ public class Player
     private boolean enCombate;
     private int resistencia;
     private int ataque;
+    private Item equipo;
     private final static float maxWeight = 7.5F;
 
     /**
@@ -29,6 +30,7 @@ public class Player
         this.ataque = ataque;
         weight = 0.0F;
         this.enCombate = false;
+        this.equipo = null;
     }
 
     /**
@@ -262,7 +264,7 @@ public class Player
             }else{
                 String itemName = item.getItemName();
                 float itemWeight = item.getItemWeight();
-                boolean added = currentRoom.addItem(itemName,itemWeight);
+                boolean added = currentRoom.addItem(itemName,itemWeight,ataque);
 
                 if(added == true)
                 {
@@ -291,8 +293,8 @@ public class Player
     {
         currentRoom = visitedRooms.pop();
     }
-    
-     public void modificaRes(int res)
+
+    public void modificaRes(int res)
     {
         resistencia += res; 
     }
@@ -330,36 +332,37 @@ public class Player
         enCombate = false;
     }
 
-     public void atacar()
+    public void atacar()
     {
         System.out.println("Golpeas a " + getPNJ().getNombre() + " y le haces " + ataque + " puntos de daño");
         getPNJ().restaRes(ataque);
     }
-    
-    
-     public NPC getPNJ()
+
+    public NPC getPNJ()
     {
         return currentRoom.getPNJ();
     }
-    
-    
-    
-    
+
+    public int getAtaque()
+    {		      {
+            int ataqueTotal = ataque;
+            if(equipo != null)
+            {
+                ataque += equipo.getAtaque();
+            }
+            return ataqueTotal;
+        }		      }
+
     public void sumaResistencia(int res)
     {
         resistencia += res; 
     }
-    
-     
+
     public int getResistencia()
     {
         return resistencia;
     }
 
-   
-    public int getAtaque()
-    {
-        return ataque;
-    }
+  
 
 }

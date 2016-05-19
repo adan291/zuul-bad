@@ -110,10 +110,10 @@ public class Room
     /**
      * Añadie nuevos items al ArrayList<Item>
      */
-    public boolean addItem(String itemName, float itemWeight)
+    public boolean addItem(String itemName, float itemWeight, int ataque)
     {
         boolean booleanToReturn = false;
-        if(items.add(new Item(itemName,itemWeight)))
+        if(items.add(new Item(itemName,itemWeight,ataque)))
         {
             booleanToReturn = true;
         }

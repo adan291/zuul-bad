@@ -43,20 +43,20 @@ public class Game
 
         // create the rooms
         sala = new Room("has entrado al castillo, y te encuentras en la sala de espera");
-        sala.addItem("pocion", 0.02F);
+        sala.addItem("pocion", 0.02F, -1);
         calabozo = new Room("estas en el calabozo y quedas encerrado");
-        calabozo.addItem("llave", 0.05F);
+        calabozo.addItem("llave", 0.05F, -1);
         armas = new Room("te encuentras en la sala de armas");
-        armas.addItem("espada", 2F);
+        armas.addItem("espada", 2F, 10);
         comedor = new Room("te encuentras en el comedor");
-        comedor.addItem("cadaver", 120F);
+        comedor.addItem("cadaver", 120F, -1);
         foso = new Room("caes en un foso");
-        foso.addItem("cuerda", 0.7F);
+        foso.addItem("cuerda", 0.7F, 1);
         habitacionFlechas = new Room("entras en la habitacion, " +  
             "y al pisar una baldosa algo suelta te disparan flechas");
-        habitacionFlechas.addItem("arco", 0.65F);
+        habitacionFlechas.addItem("arco", 0.65F, 5);
         torreon = new Room("salvaste a la princesa");
-        torreon.addItem("flechas", 0.5F);
+        torreon.addItem("flechas", 0.5F, 3);
 
         //Creamos los personajes
         esqueleto = new NPC(true, "guerrero", "!Intruso!, VAS A MORIR", "Un no-muerto con armadura y espada", 15, 75);
