@@ -343,16 +343,16 @@ public class Player
         return currentRoom.getPNJ();
     }
 
-    public int getAtaque()
-    {		      {
-            int ataqueTotal = ataque;
-            if(equipo != null)
-            {
-                ataque += equipo.getAtaque();
-            }
-            return ataqueTotal;
-        }		      }
-
+     public int getAtaque()
+    {
+        int ataqueTotal = ataque;
+        if(equipo != null)
+        {
+            ataqueTotal += equipo.getAtaque();
+        }
+        return ataqueTotal;
+    }
+    
     public void sumaResistencia(int res)
     {
         resistencia += res; 

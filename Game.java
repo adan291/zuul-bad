@@ -270,6 +270,47 @@ public class Game
         // Intenta equipar el objeto
         player.equipar(objeto);
     }
+    
+      private boolean atacar()
+    {
+        boolean atacado = false;
+        NPC pnj = player.getPNJ();
+        if((pnj != null) && (pnj.isAgresivo()) && (pnj.getResistencia() > 0))
+        {
+            // El jugador entra en combate
+            player.entraEnCombate();
+            // El jugador ataca primero
+            player.atacar();
+            atacado = true;
+            // Comprueba si el PNJ sigue vivo, sino sale de combate
+            if ((player.getResistencia() <= 0) || (pnj.getResistencia() <= 0))
+            {
+                System.out.println("El combate ha terminado");
+                player.saleDeCombate();
+                if(pnj.getResistencia() <= 0)
+                {
+                    System.out.println("Has derrotado a " + pnj.getNombre());
+                }
+            }
+            // Si sigue vivo, el PNJ ataca al jugador
+            else
+            {
+                ataquePNJ();
+            }
+        }
+        else
+        {
+            System.out.println("No existen objetivos validos en esta localización");
+        }
+        return atacado;
+    }
+    
+    private void ataquePNJ()
+     {
+         NPC pnj = player.getPNJ();
+         System.out.println(pnj.getNombre() + " te golpea y te hace " + pnj.getAtaque() + " puntos de daño");
+         player.sumaResistencia(-1 * (pnj.getAtaque()));
+     }
 
 }
 
