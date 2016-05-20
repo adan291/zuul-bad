@@ -71,6 +71,18 @@ public class NPC
     {
         resistencia -= res;
     }
+    
+    public ArrayList<Item> saquear()
+    {
+        if(resistencia > 0)
+        {
+            return null;
+        }
+        else
+        {
+            return inventario;
+        }
+    }
 
     /**
      * Devuelve un objeto del inventario indicado por parametro
@@ -149,25 +161,28 @@ public class NPC
         return agresivo;
     }
     
-    /**
-     * Devuelve un String con la información del PNJ
-     * @return un String con la información del PNJ
-     */
-    public String description()
+     public String description()
     {
         String desc = "";
         if(!agresivo)
         {
-            desc = nombre + ", " +descripcion + " (amistoso)";
+            if (resistencia > 0)
+            {
+                desc = nombre + ", " + descripcion + " [amistoso]";
+            }
+            else
+            {
+                desc = nombre + ", " + descripcion;
+            }
         }
         else
         {
-            desc = nombre + ", " +descripcion + " (agresivo)";
+            desc = nombre + ", " + descripcion + " [agresivo]";
         }
         return desc;
     }
     
-     public void estaMuerto()
+      public void estaMuerto()
     {
         agresivo = false;
         descripcion = nombre + " muerto";

@@ -334,7 +334,7 @@ public class Player
         enCombate = false;
     }
 
-   public void atacar()
+    public void atacar()
     {
         System.out.println("\nGolpeas a " + getPNJ().getNombre() + " y le haces " + getAtaque() + " puntos de daño");
         getPNJ().restaRes(getAtaque());
@@ -344,9 +344,8 @@ public class Player
     {
         return currentRoom.getPNJ();
     }
-    
-   
-     public int getAtaque()
+
+    public int getAtaque()
     {
         int ataqueTotal = ataque;
         if(equipo != null)
@@ -355,8 +354,8 @@ public class Player
         }
         return ataqueTotal;
     }
-    
-     public void sumaResistencia(int res)
+
+    public void sumaResistencia(int res)
     {
         resistencia += res; 
         // Comprueba que no supere el maximo
@@ -365,13 +364,13 @@ public class Player
             resistencia = maxResistencia;
         }
     }
-    
+
     public int getResistencia()
     {
         return resistencia;
     }
-    
-     private Item search(String nombre)
+
+    private Item search(String nombre)
     {
         boolean find = false;
         int index = 0;
@@ -393,14 +392,78 @@ public class Player
     {
         Item objeto = search(nombre);
         if(objeto != null)
-         {
-             equipo = objeto;
-             System.out.println("Equipas " + objeto.getItemName() + " y te proporciona " + objeto.getAtaque() + " ataque");
-         }
-         else
-         {
+        {
+            equipo = objeto;
+            System.out.println("Equipas " + objeto.getItemName() + " y te proporciona " + objeto.getAtaque() + " ataque");
+        }
+        else
+        {
             System.out.println("No tienes ese objeto en tu inventario para equiparlo");
         }
-     }
+    }
 
+    public boolean saquear()
+    {
+        boolean saqueado = false;
+        // Toma el inventario del PNJ
+        ArrayList<Item> loot = getPNJ().saquear();
+        // Intenta añadir cada objeto al inventario del PNJ
+        if(loot != null)
+        {
+            Iterator<Item> it = loot.iterator();
+            while(it.hasNext())
+            {
+                Item item = it.next();
+                saqueado = addItem(item);
+                if(saqueado)
+                {
+                    it.remove();
+                }
+            }
+        }
+        else
+        {
+            System.out.println("Aqui no hay nada que saquear");
+        }
+        return saqueado;
+    }
+    
+   
+
+    /**
+     * Devuelve si el jugador esta o no en combate
+     * @return True si esta en combate, false sino
+     */
+    public boolean enCombate()
+    {
+        return enCombate;
+    }
+    
+    public boolean usar(String nombre)
+    {
+        boolean usar = false;
+        // Busca el objeto en el inventario
+        Item obj = search(nombre);
+        if(obj != null)
+        {
+            if(obj.getCuraRes() > 0)
+            {
+                sumaResistencia(obj.getCuraRes());
+                System.out.println("¡Usas "+ obj.getNombreObj() + " y recuperas resistencia!");
+                usar = true;
+                inventory.remove(obj);
+            }
+            else
+            {
+                System.out.println("Ese objeto no puede usarse");
+            }
+        }
+        else
+        {
+            System.out.println("No tienes ese objeto en el inventario");
+        }
+        return usar;
+    }
+
+    
 }

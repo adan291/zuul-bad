@@ -143,7 +143,7 @@ public class Game
             System.out.println("¿Que quieres hacer?");
             return false;
         }
-
+        boolean ejecutado = false;
         switch(command.getCommandWord()){
             case HELP:
             printHelp();
@@ -196,6 +196,14 @@ public class Game
             player.atacar();
             onCombat = combat();
             break;
+            
+            case SAQUEAR:
+            ejecutado = player.saquear();
+            break;
+            
+            case USAR:
+             ejecutado = usar(command);
+             break;
 
         }
         return wantToQuit;
@@ -274,7 +282,7 @@ public class Game
         player.equipar(objeto);
     }
     
-      private boolean atacar()
+    private boolean atacar()
     {
         boolean atacado = false;
         NPC pnj = player.getPNJ();
@@ -288,7 +296,8 @@ public class Game
             // Comprueba si el PNJ sigue vivo, sino sale de combate
             if ((player.getResistencia() <= 0) || (pnj.getResistencia() <= 0))
             {
-                System.out.println("El combate ha terminado");
+                System.out.println("\nEl combate ha terminado");
+                pnj.estaMuerto();
                 player.saleDeCombate();
                 if(pnj.getResistencia() <= 0)
                 {
@@ -306,6 +315,20 @@ public class Game
             System.out.println("No existen objetivos validos en esta localización");
         }
         return atacado;
+    }
+    
+     private boolean usar(Command command) 
+    {
+        if(!command.hasSecondWord()) {
+            // if there is no second word, we don't know what to use...
+            System.out.println("¿Que quieres usar?");
+            return false;
+        }
+
+        String objeto = command.getSecondWord();
+
+        // Intenta coger el objeto
+        return (player.usar(objeto));
     }
     
     private void ataquePNJ()
