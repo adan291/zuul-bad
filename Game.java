@@ -1,4 +1,5 @@
 
+import java.util.Stack;
 /**
  *  This class is the main class of the "World of Zuul" application. 
  *  "World of Zuul" is a very simple, text based adventure game.  Users 
@@ -20,13 +21,15 @@ public class Game
 {
     private Parser parser;
     private Player player;
+    private boolean onCombat;
     /**
      * Crea el juego y lo inicializa
      */
     public Game() 
     {
         parser = new Parser();
-        player = new Player ();
+        player = new Player(50, 5);
+        onCombat = false;
         createRooms();
     }
 
@@ -35,25 +38,38 @@ public class Game
      */
     private void createRooms()
     {
-        Room sala, calabozo, armas, comedor, foso, habitacionFlechas, princesa;
+        Room sala, calabozo, armas, comedor, foso, habitacionFlechas, torreon;
+        NPC esqueleto, princesa, rey;
 
         // create the rooms
         sala = new Room("has entrado al castillo, y te encuentras en la sala de espera");
-        sala.addItem("pocion", 0.02F);
+        sala.addItem("pocion", 0.02F, -1);
         calabozo = new Room("estas en el calabozo y quedas encerrado");
-        calabozo.addItem("llave", 0.05F);
+        calabozo.addItem("llave", 0.05F, -1);
         armas = new Room("te encuentras en la sala de armas");
-        armas.addItem("espada", 2F);
+        armas.addItem("espada", 2F, 10);
         comedor = new Room("te encuentras en el comedor");
-        comedor.addItem("cadaver", 120F);
+        comedor.addItem("cadaver", 120F, -1);
         foso = new Room("caes en un foso");
-        foso.addItem("cuerda", 0.7F);
+        foso.addItem("cuerda", 0.7F, 1);
         habitacionFlechas = new Room("entras en la habitacion, " +  
             "y al pisar una baldosa algo suelta te disparan flechas");
-        habitacionFlechas.addItem("arco", 0.65F);
-        princesa = new Room("salvaste a la princesa");
-        princesa.addItem("flechas", 0.5F);
+        habitacionFlechas.addItem("arco", 0.65F, 5);
+        torreon = new Room("salvaste a la princesa");
+        torreon.addItem("flechas", 0.5F, 3);
 
+        //Creamos los personajes
+        esqueleto = new NPC(true, "guerrero", "!Intruso!, VAS A MORIR", "Un no-muerto con armadura y espada", 15, 75);
+        princesa = new NPC(false, "princesa", "!OOOO¡ Mi heroes, ¿vienes a salvarme?", "Una princesa encerrada en el castillo", 0, 1000);
+        rey = new NPC(true, "rey del castillo", "¡¿Que haces en mi morada!?, ¡a las armas!", "Un no-muerto con vestimenta de reyes y arma con escudo", 30, 120);
+
+        //Añade los personajes en las localizaciones
+        calabozo.addPNJ(esqueleto);
+        torreon.addPNJ(princesa);
+        
+        //da objetos a los npc
+       princesa.addItem(new Item("Beso que te convierte en principe y salva a la princesa", 0.F, -1));
+       rey.addItem(new Item("anillo para gobernarlos a todos", 0.2F, -1));
         // initialise room exits
         sala.setExit("este",armas);
         sala.setExit("oeste",calabozo);
@@ -61,16 +77,16 @@ public class Game
 
         armas.setExit("norte",comedor);
 
-        comedor.setExit("norte",princesa);
+        comedor.setExit("norte",torreon);
         comedor.setExit("este",habitacionFlechas);
         comedor.setExit("oeste",foso);
 
         foso.setExit("este",comedor);
 
         habitacionFlechas.setExit("oeste",comedor);
-        habitacionFlechas.setExit("noroeste",princesa);
+        habitacionFlechas.setExit("noroeste",torreon);
 
-        princesa.setExit("suroeste",habitacionFlechas);
+        torreon.setExit("suroeste",habitacionFlechas);
 
         player.setCurrentRoom(sala);  // start game outside
     }
@@ -88,6 +104,11 @@ public class Game
         while (! finished) {
             Command command = parser.getCommand();
             finished = processCommand(command);
+            if(player.getResistencia() <= 0)
+            {
+                muerte();
+                finished = true;
+            }
         }
         System.out.println("Gracias por jugar, nos vemos pronto");
     }
@@ -122,6 +143,7 @@ public class Game
             System.out.println("¿Que quieres hacer?");
             return false;
         }
+
         switch(command.getCommandWord()){
             case HELP:
             printHelp();
@@ -130,6 +152,7 @@ public class Game
             case GO:
             player.goRoom(command);
             break;
+
             case QUIT:
             wantToQuit = quit(command);
             break;
@@ -137,6 +160,7 @@ public class Game
             case LOOK:
             player.look();
             break;
+
             case EAT:
             player.eat();
             break;
@@ -149,6 +173,10 @@ public class Game
             }
             break;
 
+            case HABLAR:
+            player.hablar();
+            break;
+
             case TAKE:
             player.take(command);
             break;
@@ -159,8 +187,17 @@ public class Game
             case ITEMS:
             System.out.println(player.getItemsInfo());
             break;
-        }
 
+            case EQUIPAR:
+            equipar(command);
+            break;
+
+            case ATACAR:
+            player.atacar();
+            onCombat = combat();
+            break;
+
+        }
         return wantToQuit;
     }
 
@@ -201,4 +238,82 @@ public class Game
     {
         player.printLocationInfo();
     }
+
+    private boolean combat()
+    {
+        NPC pnj = player.getPNJ();
+        boolean continua = true;
+        if((player.getResistencia() < 0) || (pnj.getResistencia() < 0))
+        {
+            continua = false;
+        }
+        else
+        {
+            System.out.println(pnj.getNombre() + " te golpea y te hace " + player.getAtaque() + " puntos de daño");
+            player.modificaRes(-1 * (pnj.getAtaque()));
+        }
+        return continua;
+    }
+
+    private void muerte()
+    {
+        System.out.println("Tu personaje ha muerto. Ha terminado la partida");
+    }
+
+    private void equipar(Command command) 
+    {
+        if(!command.hasSecondWord()) {
+            // if there is no second word, we don't know what to equip...
+            System.out.println("¿Que quieres equipar?");
+            return;
+        }
+
+        String objeto = command.getSecondWord();
+
+        // Intenta equipar el objeto
+        player.equipar(objeto);
+    }
+    
+      private boolean atacar()
+    {
+        boolean atacado = false;
+        NPC pnj = player.getPNJ();
+        if((pnj != null) && (pnj.isAgresivo()) && (pnj.getResistencia() > 0))
+        {
+            // El jugador entra en combate
+            player.entraEnCombate();
+            // El jugador ataca primero
+            player.atacar();
+            atacado = true;
+            // Comprueba si el PNJ sigue vivo, sino sale de combate
+            if ((player.getResistencia() <= 0) || (pnj.getResistencia() <= 0))
+            {
+                System.out.println("El combate ha terminado");
+                player.saleDeCombate();
+                if(pnj.getResistencia() <= 0)
+                {
+                    System.out.println("Has derrotado a " + pnj.getNombre());
+                }
+            }
+            // Si sigue vivo, el PNJ ataca al jugador
+            else
+            {
+                ataquePNJ();
+            }
+        }
+        else
+        {
+            System.out.println("No existen objetivos validos en esta localización");
+        }
+        return atacado;
+    }
+    
+    private void ataquePNJ()
+     {
+         NPC pnj = player.getPNJ();
+         System.out.println(pnj.getNombre() + " te golpea y te hace " + pnj.getAtaque() + " puntos de daño");
+         player.sumaResistencia(-1 * (pnj.getAtaque()));
+     }
+
 }
+

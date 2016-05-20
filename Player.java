@@ -13,16 +13,26 @@ public class Player
     private Stack<Room> visitedRooms;
     private ArrayList<Item> items;
     private float weight;
+    private boolean enCombate;
+    private int resistencia;
+    private int ataque;
+    private Item equipo;
     private final static float maxWeight = 7.5F;
+    private final int maxResistencia;
 
     /**
      * Contructor del jugador
      */
-    public Player()
+    public Player(int resistencia, int ataque)
     {
         visitedRooms = new Stack<>();
         items = new ArrayList<>();
+        this.resistencia = resistencia;
+        this.ataque = ataque;
         weight = 0.0F;
+        this.enCombate = false;
+        this.equipo = null;
+        this.maxResistencia = resistencia;
     }
 
     /**
@@ -85,7 +95,12 @@ public class Player
      */
     public void look()
     {
-        System.out.println(currentRoom.getLongDescription());
+        if(!enCombate){
+            System.out.println(currentRoom.getLongDescription());
+        }
+        else{
+            System.out.println("No puedes hacer eso en combate");
+        }
     }
 
     /**
@@ -93,8 +108,10 @@ public class Player
      */
     public void back()
     {
+
         currentRoom = visitedRooms.pop();
         printLocationInfo();
+
     }
 
     /**
@@ -102,7 +119,12 @@ public class Player
      */
     public void eat()
     {
-        System.out.println("Umm?¡ La comida estaba deliciosa y ya no tienes hambre");
+        if(!enCombate){
+            System.out.println("Umm?¡ La comida estaba deliciosa y ya no tienes hambre");
+        }
+        else{
+            System.out.println("No puedes hacer eso en combate");
+        }
     }
 
     /**
@@ -236,7 +258,7 @@ public class Player
             System.out.println("Que quieres hacer: ");
         }else{
             Item item = searchItem(itemString);
-            
+
             if(item == null)
             {
                 System.out.println("No tienes objetos con ese nombre");
@@ -244,7 +266,7 @@ public class Player
             }else{
                 String itemName = item.getItemName();
                 float itemWeight = item.getItemWeight();
-                boolean added = currentRoom.addItem(itemName,itemWeight);
+                boolean added = currentRoom.addItem(itemName,itemWeight,ataque);
 
                 if(added == true)
                 {
@@ -273,4 +295,112 @@ public class Player
     {
         currentRoom = visitedRooms.pop();
     }
+
+    public void modificaRes(int res)
+    {
+        resistencia += res; 
+    }
+
+    public void hablar()
+    {
+        if(currentRoom.getPNJ() != null)
+        {
+            Item obj = currentRoom.getPNJ().hablar();
+            if (obj != null)
+            {
+                boolean exito = addItem(obj);
+                if(exito)
+                {
+                    currentRoom.getPNJ().remove(obj);
+                }
+                else
+                {
+                    System.out.println("No puedes recibir el objeto que te intenta dar");
+                }
+            }
+        }
+    }
+
+    public void entraEnCombate()
+    {
+        enCombate = true;
+    }
+
+    /**
+     * Saca al jugador de combate
+     */
+    public void saleDeCombate()
+    {
+        enCombate = false;
+    }
+
+   public void atacar()
+    {
+        System.out.println("\nGolpeas a " + getPNJ().getNombre() + " y le haces " + getAtaque() + " puntos de daño");
+        getPNJ().restaRes(getAtaque());
+    }
+
+    public NPC getPNJ()
+    {
+        return currentRoom.getPNJ();
+    }
+    
+   
+     public int getAtaque()
+    {
+        int ataqueTotal = ataque;
+        if(equipo != null)
+        {
+            ataqueTotal += equipo.getAtaque();
+        }
+        return ataqueTotal;
+    }
+    
+     public void sumaResistencia(int res)
+    {
+        resistencia += res; 
+        // Comprueba que no supere el maximo
+        if(resistencia > maxResistencia)
+        {
+            resistencia = maxResistencia;
+        }
+    }
+    
+    public int getResistencia()
+    {
+        return resistencia;
+    }
+    
+     private Item search(String nombre)
+    {
+        boolean find = false;
+        int index = 0;
+        Item objeto = null;
+        // Busca el objeto en el inventario
+        while((index < items.size()) & (!find))
+        {
+            if(nombre.equals(items.get(index).getItemName()))
+            {
+                objeto = items.get(index);
+                find = true;
+            }
+            index++;
+        }
+        return objeto;
+    }
+
+    public void equipar(String nombre)
+    {
+        Item objeto = search(nombre);
+        if(objeto != null)
+         {
+             equipo = objeto;
+             System.out.println("Equipas " + objeto.getItemName() + " y te proporciona " + objeto.getAtaque() + " ataque");
+         }
+         else
+         {
+            System.out.println("No tienes ese objeto en tu inventario para equiparlo");
+        }
+     }
+
 }
