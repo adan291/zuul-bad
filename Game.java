@@ -66,10 +66,10 @@ public class Game
         //Añade los personajes en las localizaciones
         calabozo.addPNJ(esqueleto);
         torreon.addPNJ(princesa);
-        
+
         //da objetos a los npc
-       princesa.addItem(new Item("Beso que te convierte en principe y salva a la princesa", 0.F, -1));
-       rey.addItem(new Item("anillo para gobernarlos a todos", 0.2F, -1));
+        princesa.addItem(new Item("Beso que te convierte en principe y salva a la princesa", 0.F, -1));
+        rey.addItem(new Item("anillo para gobernarlos a todos", 0.2F, -1));
         // initialise room exits
         sala.setExit("este",armas);
         sala.setExit("oeste",calabozo);
@@ -196,14 +196,18 @@ public class Game
             player.atacar();
             onCombat = combat();
             break;
-            
+
             case SAQUEAR:
             ejecutado = player.saquear();
             break;
-            
+
             case USAR:
-             ejecutado = usar(command);
-             break;
+            ejecutado = usar(command);
+            break;
+
+            case ESTADO:
+            player.estado();
+            break;
 
         }
         return wantToQuit;
@@ -281,7 +285,7 @@ public class Game
         // Intenta equipar el objeto
         player.equipar(objeto);
     }
-    
+
     private boolean atacar()
     {
         boolean atacado = false;
@@ -316,8 +320,8 @@ public class Game
         }
         return atacado;
     }
-    
-     private boolean usar(Command command) 
+
+    private boolean usar(Command command) 
     {
         if(!command.hasSecondWord()) {
             // if there is no second word, we don't know what to use...
@@ -330,13 +334,13 @@ public class Game
         // Intenta coger el objeto
         return (player.usar(objeto));
     }
-    
+
     private void ataquePNJ()
-     {
-         NPC pnj = player.getPNJ();
-         System.out.println(pnj.getNombre() + " te golpea y te hace " + pnj.getAtaque() + " puntos de daño");
-         player.sumaResistencia(-1 * (pnj.getAtaque()));
-     }
+    {
+        NPC pnj = player.getPNJ();
+        System.out.println(pnj.getNombre() + " te golpea y te hace " + pnj.getAtaque() + " puntos de daño");
+        player.sumaResistencia(-1 * (pnj.getAtaque()));
+    }
 
 }
 

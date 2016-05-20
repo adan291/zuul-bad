@@ -464,6 +464,22 @@ public class Player
         }
         return usar;
     }
+    
+    public void estado()
+    {
+        String estado = "Resistencia: " + resistencia + "/" + maxResistencia;
+        estado += "\nAtaque base: " + ataque + ", ataque total: " + getAtaque();
+        if(equipo != null)
+        {
+            estado += "\nEquipado: " + equipo.getNombreObj() + ", " + equipo.getAtaque() + " añadido al ataque";
+        }
+        else
+        {
+            estado += "\nNo tienes nada equipado";
+        }
+        estado += showInventory();
+        System.out.println(estado);
+    }
 
     
 }
