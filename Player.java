@@ -351,7 +351,7 @@ public class Player
     public void sumaResistencia(int res)
     {
         resistencia += res; 
-        // Comprueba que no supere el maximo
+        // Que no supere el maximo
         if(resistencia > maxResistencia)
         {
             resistencia = maxResistencia;
@@ -368,7 +368,7 @@ public class Player
         boolean find = false;
         int index = 0;
         Item objeto = null;
-        // Busca el objeto en el inventario
+        
         while((index < items.size()) & (!find))
         {
             if(nombre.equals(items.get(index).getItemName()))
@@ -398,9 +398,9 @@ public class Player
     public boolean saquear()
     {
         boolean saqueado = false;
-        // Toma el inventario del PNJ
+        
         ArrayList<Item> loot = getPNJ().saquear();
-        // Intenta añadir cada objeto al inventario del PNJ
+        
         if(loot.size() > 0)
         {
             Iterator<Item> it = loot.iterator();
@@ -422,10 +422,6 @@ public class Player
     }
    
 
-    /**
-     * Devuelve si el jugador esta o no en combate
-     * @return True si esta en combate, false sino
-     */
     public boolean enCombate()
     {
         return enCombate;
@@ -434,7 +430,7 @@ public class Player
     public boolean usar(String nombre)
     {
         boolean usar = false;
-        // Busca el objeto en el inventario
+       
         Item obj = search(nombre);
         if(obj != null)
         {

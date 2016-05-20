@@ -285,7 +285,8 @@ public class Game
         // Intenta equipar el objeto
         player.equipar(objeto);
     }
-private boolean atacar()
+
+    private boolean atacar()
     {
         boolean atacado = false;
         NPC pnj = player.getPNJ();
@@ -319,7 +320,6 @@ private boolean atacar()
         }
         return atacado;
     }
-
 
     private boolean usar(Command command) 
     {

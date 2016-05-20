@@ -87,7 +87,7 @@ public class Room
     {
         String descr = "";
         descr = "\nEstas en " + description + "\nSalidas: " + getExitString();
-        // Si hay algun objeto en la habitación, lo incluye en la descripción
+       
         if (items.size() > 0)
         {
             descr += "\nVes los siguientes objetos:";

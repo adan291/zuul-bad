@@ -17,15 +17,7 @@ public class NPC
     private int resistencia;
     private ArrayList<Item> inventario;
 
-    /**
-     * Constructor for objects of class NPC
-     * @param agresivo Si es un PNJ agresivo o no
-     * @param nombre El nombre del PNJ
-     * @param conversacion La respuesta del PNJ al comando hablar
-     * @param descripcion La descripcion del PNJ
-     * @param ataque El ataque del PNJ
-     * @param resistencia La resistencia del PNJ
-     */
+    
     public NPC(boolean agresivo, String nombre, String conversacion, String descripcion, int ataque, int resistencia)
     {
         this.agresivo = agresivo;
@@ -37,19 +29,14 @@ public class NPC
         inventario = new ArrayList<Item>();
     }
 
-    /**
-     * Habla con el jugador, muestra la respuesta que tenga el PNJ al comando hablar. Si el PNJ
-     * tiene algun objeto que entregar al jugador, se lo entregara.
-     * @return Si el PNJ tiene algun objeto que entregar la jugador, ese objeto, sino null
-     */
      public Item hablar()
     {
-        // Si no es agresivo le contesta
+        
         Item obj = null;
         if(!agresivo)
         {
             System.out.println(conversacion);
-            // Si tiene objetos en el inventario, los entrega
+
             if(inventario.size() > 0)
             {
                 Random rand = new Random();
@@ -63,6 +50,7 @@ public class NPC
         }
         return obj;
     }
+    
     /**
      * Resta resistencia al PNJ
      * @param res La resistencia a restar
@@ -90,7 +78,7 @@ public class NPC
         boolean encontrado = false;
         Item objeto = null;
         int index = 0;
-        // Busca el objeto en el inventario, si lo encuentra lo devuelve
+      
         while((index < inventario.size()) && !(encontrado))
         {
             if(inventario.get(index).getItemName().equals(nombre))
@@ -133,10 +121,7 @@ public class NPC
         return nombre;
     }
     
-    /**
-     * Devuelve si el PNJ es agresivo o no
-     * @return True si es agresivo, false sino
-     */
+   
     public boolean isAgresivo()
     {
         return agresivo;
