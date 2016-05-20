@@ -42,7 +42,7 @@ public class NPC
      * tiene algun objeto que entregar al jugador, se lo entregara.
      * @return Si el PNJ tiene algun objeto que entregar la jugador, ese objeto, sino null
      */
-    public Item hablar()
+     public Item hablar()
     {
         // Si no es agresivo le contesta
         Item obj = null;
@@ -57,9 +57,12 @@ public class NPC
                 obj = search(nombre);
             }
         }
+        else
+        {
+            System.out.println("No puedes hablar con personajes agresivos");
+        }
         return obj;
     }
-
     /**
      * Resta resistencia al PNJ
      * @param res La resistencia a restar
@@ -162,5 +165,11 @@ public class NPC
             desc = nombre + ", " +descripcion + " (agresivo)";
         }
         return desc;
+    }
+    
+     public void estaMuerto()
+    {
+        agresivo = false;
+        descripcion = nombre + " muerto";
     }
 }

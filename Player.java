@@ -18,6 +18,7 @@ public class Player
     private int ataque;
     private Item equipo;
     private final static float maxWeight = 7.5F;
+    private final int maxResistencia;
 
     /**
      * Contructor del jugador
@@ -31,6 +32,7 @@ public class Player
         weight = 0.0F;
         this.enCombate = false;
         this.equipo = null;
+        this.maxResistencia = resistencia;
     }
 
     /**
@@ -332,17 +334,18 @@ public class Player
         enCombate = false;
     }
 
-    public void atacar()
+   public void atacar()
     {
-        System.out.println("Golpeas a " + getPNJ().getNombre() + " y le haces " + ataque + " puntos de daño");
-        getPNJ().restaRes(ataque);
+        System.out.println("\nGolpeas a " + getPNJ().getNombre() + " y le haces " + getAtaque() + " puntos de daño");
+        getPNJ().restaRes(getAtaque());
     }
 
     public NPC getPNJ()
     {
         return currentRoom.getPNJ();
     }
-
+    
+   
      public int getAtaque()
     {
         int ataqueTotal = ataque;
@@ -353,11 +356,16 @@ public class Player
         return ataqueTotal;
     }
     
-    public void sumaResistencia(int res)
+     public void sumaResistencia(int res)
     {
         resistencia += res; 
+        // Comprueba que no supere el maximo
+        if(resistencia > maxResistencia)
+        {
+            resistencia = maxResistencia;
+        }
     }
-
+    
     public int getResistencia()
     {
         return resistencia;
