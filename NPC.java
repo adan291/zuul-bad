@@ -84,11 +84,7 @@ public class NPC
         }
     }
 
-    /**
-     * Devuelve un objeto del inventario indicado por parametro
-     * @param nombre El nombre del objeto a entregar
-     * @return El objeto una vez encontrado
-     */
+   
     public Item search(String nombre)
     {
         boolean encontrado = false;
@@ -107,37 +103,22 @@ public class NPC
         return objeto;
     }
 
-    /**
-     * Elimina un objeto del inventario del PNJ pasado como parametro
-     * @param obj El objeto a eliminar del inventario
-     */
+
     public void remove(Item obj)
     {
         inventario.remove(obj);
     }
 
-    /**
-     * Devuelve la resistencia del PNJ
-     * @return La resisencia del PNJ
-     */
     public int getResistencia()
     {
         return resistencia;
     }
 
-    /**
-     * Devuelve el ataque del PNJ
-     * @return El ataque del PNJ
-     */
     public int getAtaque()
     {
         return ataque;
     }
 
-    /**
-     * Añade un objeto al inventario del PNJ
-     * @param obj El objeto a añadir al inventario
-     */
     public void addItem(Item obj)
     {
         inventario.add(obj);

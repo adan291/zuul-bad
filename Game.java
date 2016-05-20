@@ -285,8 +285,7 @@ public class Game
         // Intenta equipar el objeto
         player.equipar(objeto);
     }
-
-    private boolean atacar()
+private boolean atacar()
     {
         boolean atacado = false;
         NPC pnj = player.getPNJ();
@@ -321,6 +320,7 @@ public class Game
         return atacado;
     }
 
+
     private boolean usar(Command command) 
     {
         if(!command.hasSecondWord()) {
@@ -338,9 +338,11 @@ public class Game
     private void ataquePNJ()
     {
         NPC pnj = player.getPNJ();
-        System.out.println(pnj.getNombre() + " te golpea y te hace " + pnj.getAtaque() + " puntos de daño");
-        player.sumaResistencia(-1 * (pnj.getAtaque()));
+        if(pnj != null && pnj.isAgresivo())
+        {
+            System.out.println(pnj.getNombre() + " te golpea y te hace " + pnj.getAtaque() + " puntos de daño");
+            player.sumaResistencia(-1 * (pnj.getAtaque()));
+        }
     }
-
 }
 

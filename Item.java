@@ -25,7 +25,7 @@ public class Item
     /**
      * Devuelve los atributos del objeto
      */
-    public String getDescriptions()
+    public String getDescription()
     {
         String description = "\n" + "Objeto: " + itemName + "   Tamaño del objeto: " + itemWeight + " Kg.";
         return description;
@@ -34,7 +34,7 @@ public class Item
     /**
      * Devuelve el nombre del objeto 
      */
-    public String getDescription()
+    public String getItemName()
     {
         return itemName;
     }

@@ -17,8 +17,9 @@ public class Player
     private int resistencia;
     private int ataque;
     private Item equipo;
-    private final static float maxWeight = 7.5F;
-    private final int maxResistencia;
+    private final static float MAX_WEIGHT = 7.5F;
+    private final int MAX_RESISTANCE;
+    
 
     /**
      * Contructor del jugador
@@ -32,7 +33,7 @@ public class Player
         weight = 0.0F;
         this.enCombate = false;
         this.equipo = null;
-        this.maxResistencia = resistencia;
+        this.MAX_RESISTANCE = resistencia;
     }
 
     /**
@@ -133,7 +134,7 @@ public class Player
     public boolean addItem(Item item)
     {
         boolean itemAdd = false;
-        if(item.getItemWeight() > maxWeight)
+        if(item.getItemWeight() > MAX_WEIGHT)
         {
             System.out.println("Ese objeto que intentas coger pesa demasiado o ya llevas demasiado");
         }else{
@@ -242,45 +243,37 @@ public class Player
      * Si no hay objetos con ese nombre no puede soltarlo
      * Si en esa habitacion no puede soltar ese objeto no lo suelta
      */
-    public void drop(Command command)
+   public boolean dropItem(String objeto)
     {
-        if(!command.hasSecondWord()) {
-            // if there is no second word, we don't know where to go...
-            System.out.println("¿Que objeto quieres soltar?");
-            return;
-        }
-
-        String itemString = command.getSecondWord();
-
-        if(items == null)
+        boolean soltar = false;
+        if(!enCombate)
         {
-            System.out.println("No tienes objetos");
-            System.out.println("Que quieres hacer: ");
-        }else{
-            Item item = searchItem(itemString);
-
-            if(item == null)
+            // busca el objeto en el inventario
+            Item tempObj = search(objeto);
+            if(tempObj != null)
             {
-                System.out.println("No tienes objetos con ese nombre");
-                System.out.println("Que quieres hacer: ");
-            }else{
-                String itemName = item.getItemName();
-                float itemWeight = item.getItemWeight();
-                boolean added = currentRoom.addItem(itemName,itemWeight,ataque);
-
-                if(added == true)
+                items.remove(tempObj);
+                currentRoom.addItem(tempObj);
+                System.out.println("Sueltas " + tempObj.getLongDescription());
+                MAX_WEIGHT-= tempObj.getPeso();
+                soltar = true;
+                if(tempObj == equipo)
                 {
-                    removeItem(itemString);
-                    System.out.println("Lo/La has soltado" );
-                    System.out.println("Que quieres hacer: ");
-                }else{
-                    System.out.println("No puedes soltar el objeto es esta habitacion");
-                    System.out.println("Que quieres hacer: ");
+                    equipo = null;
                 }
             }
+            else
+            {
+                System.out.println("No tienes ese objeto en tu inventario");
+            }
         }
+        else
+        {
+            System.out.println("No puedes hacer eso en combate");
+        }
+        return soltar;
     }
-
+    
     /**
      * Devuelve true si esta vacio y false si esta lleno
      */
@@ -408,7 +401,7 @@ public class Player
         // Toma el inventario del PNJ
         ArrayList<Item> loot = getPNJ().saquear();
         // Intenta añadir cada objeto al inventario del PNJ
-        if(loot != null)
+        if(loot.size() > 0)
         {
             Iterator<Item> it = loot.iterator();
             while(it.hasNext())
@@ -427,7 +420,6 @@ public class Player
         }
         return saqueado;
     }
-    
    
 
     /**
@@ -449,9 +441,9 @@ public class Player
             if(obj.getCuraRes() > 0)
             {
                 sumaResistencia(obj.getCuraRes());
-                System.out.println("¡Usas "+ obj.getNombreObj() + " y recuperas resistencia!");
+                System.out.println("¡Usas "+ obj.getItemName() + " y recuperas resistencia!");
                 usar = true;
-                inventory.remove(obj);
+                items.remove(obj);
             }
             else
             {
@@ -471,13 +463,13 @@ public class Player
         estado += "\nAtaque base: " + ataque + ", ataque total: " + getAtaque();
         if(equipo != null)
         {
-            estado += "\nEquipado: " + equipo.getNombreObj() + ", " + equipo.getAtaque() + " añadido al ataque";
+            estado += "\nEquipado: " + equipo.getItemName() + ", " + equipo.getAtaque() + " añadido al ataque";
         }
         else
         {
             estado += "\nNo tienes nada equipado";
         }
-        estado += showInventory();
+        estado += getItemsInfo();
         System.out.println(estado);
     }
 

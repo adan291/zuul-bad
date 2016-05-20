@@ -107,19 +107,11 @@ public class Room
         return descr;
     }
 
-    /**
-     * Añadie nuevos items al ArrayList<Item>
-     */
-    public boolean addItem(String itemName, float itemWeight, int ataque)
+     public void addItem(Item objeto)
     {
-        boolean booleanToReturn = false;
-        if(items.add(new Item(itemName,itemWeight,ataque)))
-        {
-            booleanToReturn = true;
-        }
-        return booleanToReturn;
+        items.add(objeto);
     }
-
+    
     /**
      * Metodo que devuelve true si el arraylist items esta lleno de objetos y false si no lo esta
      */
